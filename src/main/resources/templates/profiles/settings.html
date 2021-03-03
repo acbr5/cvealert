@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Settings</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Actions</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myTabs">
+            <ul class="nav nav-tabs mt-5">
+                <li class="nav-item"> <a href="#edit_user_profile">Edit User Profile</a></li>
+                <li class="nav-item"> <a href="#change_password">Change Password</a></li>
+                <li class="nav-item"> <a href="#change_username">Change Username</a></li>
+                <li class="nav-item"> <a href="#change_email">Change Email</a></li>
+            </ul>
+            <div class="tab-content pt-3">
+                <div class="tab-pane" id="edit_user_profile">
+                    <div class="box-body">
+                        <form th:action="@{/edit_user_profile}" id="updateForm" method="post" th:object="${userDO}">
+                            <fieldset>
+                                <div th:if="${messageErrUpt != null}">
+                                    <p class="text-success">[[${messageErrUpt}]]</p>
+                                </div>
+                                <span hidden id="successUpdateName">[[${change_name}]]</span>
+                                <div class="form-group">
+                                    <input type="text" name="first_name" field="*{first_name}" id="first_name" class="form-control"
+                                           placeholder="First Name" required autofocus="true" tabindex="200"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="last_name" field="*{last_name}" id="last_name" class="form-control"
+                                           placeholder="Last Name" tabindex="300"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button id="updateBtn" type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane active" id="change_password">
+                    <div class="box-body">
+                        <div id="errormsg" style="display:none"></div>
+                        <form id="changePass" th:action="@{/change_password}" method="POST" th:object="${userDO}">
+                            <fieldset>
+                                <div th:if="${msg != null}">
+                                    <p class="text-success">[[${msg}]]</p>
+                                </div>
+                                <input type="hidden" id="successUpdatePass" value="${change_password}">
+                                <span id="error" class="text-error" style="display:none">Password mismatch</span>
+                                <div class="form-group">
+                                    <input type="password" field="*password" id="oldPass" name="oldpassword" class="form-control"
+                                           placeholder="Current Password" required autofocus="true" tabindex="200"/>
+                                </div>
+                                <div class="form-group">
+                                    <input title="Password must contain at least 6 characters, including UPPER/lowercase and numbers"
+                                           type="password" name="password" id="pass1" class="form-control"
+                                           placeholder="New Password" required tabindex="300"
+                                           onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                                            if(this.checkValidity()) form.pwd2.pattern = RegExp.escape(this.value);"
+                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"/>
+                                </div>
+                                <div class="form-group">
+                                    <input title="Password must contain at least 6 characters, including UPPER/lowercase and numbers"
+                                           type="password" id="pass2" class="form-control"
+                                           placeholder="Retype New Password" required="true" tabindex="300"
+                                           onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                                            if(this.checkValidity()) form.pwd2.pattern = RegExp.escape(this.value);"
+                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div th:if="${messageErr != null}">
+                                            <p class="text-danger">[[${messageErr}]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button id="changePassBtn" type="submit" class="btn btn-primary btn-block btn-flat" >Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="change_username">
+                    <div class="box-body">
+                        <div id="errormessage" style="display:none"></div>
+                        <form id="changeUsername" th:action="@{/change_username}" method="POST" th:object="${userDO}">
+                            <fieldset>
+                                <div th:if="${succMessage != null}">
+                                    <p class="text-success">[[${succMessage}]]</p>
+                                </div>
+                                <input type="hidden" id="successUpdateUsername" value="${change_username}">
+                                <div class="form-group">
+                                    <input type="password" field="*password" name="password" class="form-control"
+                                           placeholder="Your Password" required autofocus="true" tabindex="200"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="username" id="username" class="form-control"
+                                           placeholder="Username" required tabindex="300"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div th:if="${errorMsg != null}">
+                                            <p class="text-danger">[[${errorMsg}]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div th:if="${errorMsg2 != null}">
+                                            <p class="text-danger">[[${errorMsg2}]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button id="changeUsernameBtn" type="submit" class="btn btn-primary btn-block btn-flat" >Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="change_email">
+                    <div class="box-body">
+                        <form th:action="@{/change_email}" id="emailForm" method="post" th:object="${userDO}">
+                            <fieldset>
+                                <div th:if="${succMessageEmail != null}">
+                                    <p class="text-success">[[${succMessageEmail}]]</p>
+                                </div>
+                                <input type="hidden" id="successUpdateEmail" value="${change_email}">
+                                <div class="form-group">
+                                    <input type="password" field="*password" name="password" class="form-control"
+                                           placeholder="Your Password" required autofocus="true" tabindex="200"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control"
+                                           placeholder="Email" required tabindex="300"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div th:if="${errorMsgEmail != null}">
+                                            <p class="text-danger">[[${errorMsgEmail}]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div th:if="${errorMsgEmail2 != null}">
+                                            <p class="text-danger">[[${errorMsgEmail2}]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button id="changeEmailBtn" type="submit" class="btn btn-primary btn-block btn-flat" >Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+<script th:src="@{/js/jquery-ui.js}"></script>
+<link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+<script>
+  $( function() {
+    $( "#myTabs" ).tabs();
+  } );
+</script>
+<script>
+    $(document).ready(function() {
+        // if passwords do not match
+        $('#changePass').submit(function(e){
+            var form = this;
+            e.preventDefault();
+            // Check Passwords are the same
+            if( $('#pass1').val()==$('#pass2').val() ) {
+                 // Submit Form
+                 form.submit();
+            } else {
+                 // Complain bitterly
+                 alert('Password Mismatch');
+                 return false;
+            }
+        });
+
+       /* // load first tab content
+        $('#change_password').click($('.btn.btn-default.active').attr("data-url"), function (result) {
+        })*/
+    });
+
+</script>
+</body>
+</html>

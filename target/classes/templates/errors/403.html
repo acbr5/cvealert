@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Access Denied</title>
+</head>
+
+<body class="hold-transition login-page">
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="starter-template">
+            <h1>403 - Access is denied</h1>
+            <div th:inline="text">Hello '[[${#httpServletRequest.remoteUser}]]',
+                you do not have permission to access this page.</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

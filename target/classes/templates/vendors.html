@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Vendors (CPE)</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <section class="content-header">
+            <h1>Vendors</h1>
+            <ol class="breadcrumb">
+                <li><a href="/">OpenCVE</a></li>
+                <li class="active">Vendors</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class='col-lg-7'>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                        </div>
+                        <div class="box-body">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                  <span class="input-group-btn">
+                  <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                  </span>
+                                            <form method="GET">
+                                                <input type="text" placeholder="Search" class="form-control" name="search"
+                                                       value="">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Filter by letter</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="btn-group">
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=a" type="button">A</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=b" type="button">B</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=c" type="button">C</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=d" type="button">D</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=e" type="button">E</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=f" type="button">F</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=g" type="button">G</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=h" type="button">H</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=i" type="button">I</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=j" type="button">J</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=k" type="button">K</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=l" type="button">L</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=m" type="button">M</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=n" type="button">N</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=o" type="button">O</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=p" type="button">P</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=q" type="button">Q</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=r" type="button">R</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=s" type="button">S</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=t" type="button">T</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=u" type="button">U</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=v" type="button">V</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=w" type="button">W</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=x" type="button">X</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=y" type="button">Y</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=z" type="button">Z</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=%40" type="button">@</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=0" type="button">0</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=1" type="button">1</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=2" type="button">2</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=3" type="button">3</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=4" type="button">4</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=5" type="button">5</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=6" type="button">6</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=7" type="button">7</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=8" type="button">8</a>
+
+                                <a class="btn btn-very-sm btn-default"
+                                   href="/vendors?l=9" type="button">9</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class='col-lg-12' >
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Vendors</h3>
+                        </div>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover table-striped">
+                                <tr>
+                                    <th>Vendor</th>
+                                    <th class="text-center">Products</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+
+                            </table>
+                            <div class="center">
+                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a>1</a></li><li><a href="/vendors?page=2">2</a></li><li><a href="/vendors?page=3">3</a></li><li><a href="/vendors?page=4">4</a></li><li><a href="/vendors?page=5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/vendors?page=1223">1223</a></li><li><a href="/vendors?page=1224">1224</a></li><li class="next"><a href="/vendors?page=2">&raquo;</a></li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2021</strong>
+    </footer>
+
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+</body>
+</html>

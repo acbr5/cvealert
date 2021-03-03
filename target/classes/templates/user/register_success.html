@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:form="http://www.w3.org/1999/xhtml">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Register - Success</title>
+</head>
+
+<body class="hold-transition login-page">
+
+<div class="container text-center">
+    <div class="container">
+        <div class="jumbotron">
+            <th:block th:insert="home_blank :: body"> </th:block>
+            <h3>You have signed up successfully!</h3>
+            <p>Please check your email to verify your account.</p>
+            <h4><a th:href="@{/login}">Click here to Login</a></h4>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+</body>
+</html>

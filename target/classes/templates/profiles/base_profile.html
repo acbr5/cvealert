@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<th:block th:insert="home_blank :: head"></th:block>
+
+<title>Profile</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="profile-picture">
+                    <img class="gravatar_image" th:object="${gravatar}" src="${gravatar}" th:src="${gravatar}" alt="User Image">
+                    <h3 ><span class="hidden-xs" sec:authentication="name"></span></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="nav-tabs-custom nav-tabs-profile nav-tabs-primary">
+                    <ul class="nav nav-tabs">
+                        <li> <a href="profiles/settings.html" th:href="@{/account/settings}">Settings</a></li>
+                        <li> <a href="profiles/notifications.html" th:href="@{/account/notifications}" >Notifications</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+</body>
+</html>

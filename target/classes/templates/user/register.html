@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Sign Out</title>
+</head>
+
+<body class="hold-transition login-page">
+
+<div class="container">
+    <div class="login_user">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="register-box">
+
+            <div class="register-box-body">
+                <div class="register-logo">
+                    <img src=""  th:alt-title="Logo">
+                    <a href="/">CVE</a>
+                </div>
+
+                <p class="login-box-msg"><strong>Register a new membership</strong></p>
+
+                <form th:action="@{/process_register}" id="ourForm" method="post" th:object="${userDO}" onsubmit="return checkForm(this);">
+                    <input id="next" name="next" type="hidden" value="/">
+                    <input id="reg_next" name="reg_next" type="hidden" value="/login">
+                    <input id="invite_token" name="invite_token" type="hidden" value="">
+                    <input id="csrf_token" name="csrf_token" type="hidden" value="">
+                    <div class="form-group  ">
+                        <input class="form-control" name="username" th:field="*{username}" placeholder="Username" required pattern="\w+" tabindex="10" type="text" value="">
+
+                    </div>
+                    <div class="form-group  ">
+                        <input title="Please enter a valid e-mail" class="form-control" name="email" th:field="*{email}" placeholder="Email" required tabindex="20" type="email" value="">
+
+                    </div>
+                    <div class="form-group  ">
+                        <input title="Password must contain at least 6 characters, including UPPER/lowercase and numbers"
+                               id="pass1" class="form-control" name="password" th:field="*{password}" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                               placeholder="Password" tabindex="30" type="password" value=""
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                                         if(this.checkValidity()) form.pwd2.pattern = RegExp.escape(this.value);">
+
+                    </div>
+                    <div class="form-group  ">
+                        <input title="Please enter the same Password as above"
+                               id="pass2" class="form-control" name="retype_password" placeholder="Confirm Password"
+                               tabindex="40" type="password" value=""
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div th:if="${messages1 != null}">
+                                <p class="text-danger">[[${messages1}]]</p>
+                            </div>
+                            <div th:if="${messages2 != null}">
+                                <p class="text-danger">[[${messages2}]]</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                        </div>
+                    </div>
+                </form>
+
+                <p>&nbsp;</p>
+                <div class="center">
+                    <span>Already have an account?</span>
+                    <a href="/login">Sign in</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+
+<script>
+    $(document).ready(function() {
+    $('#ourForm').submit(function(e){
+      var form = this;
+      e.preventDefault();
+      // Check Passwords are the same
+      if( $('#pass1').val()==$('#pass2').val() ) {
+          // Submit Form
+          form.submit();
+      } else {
+          // Complain bitterly
+          alert('Password Mismatch');
+          return false;
+      }
+  });
+});
+
+</script>
+</body>
+</html>

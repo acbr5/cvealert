@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Log in</title>
+</head>
+
+<body class="hold-transition login-page">
+
+<div class="container">
+    <div class="login_user">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="login-box">
+            <div class="login-box-body">
+
+                <div class="login-logo">
+                    <img src="" th:alt-title="Logo">
+                    <a href="/">CVE</a>
+                </div>
+
+                <p class="login-box-msg"><strong>Sign in to your account</strong></p>
+
+                <form th:action="@{/login}" method="post" modelAttribute="login">
+                    <fieldset>
+                        <div th:if="${param.error}">
+                            <div class="alert alert-danger">
+                                Invalid username and password.
+                            </div>
+                        </div>
+                        <div th:if="${param.logout}">
+                            <div class="alert alert-info">
+                                You have been logged out.
+                            </div>
+                        </div>
+
+                        <div th:if="${message != null}">
+                            <p class="text-primary">[[${message}]]</p>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="username" id="username" class="form-control"
+                                   placeholder="Username or email" required="true" autofocus="true" tabindex="200"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="Password" required="true" tabindex="300"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-8">
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="remember_me" name="remember_me" tabindex="400" type="checkbox" value="y"> Remember me
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <p class="center">
+                    <a href="user/forgot-password" th:href="@{/profile/forgot-password}"><span>Forgot password ?</span></a><br>
+                    <a href="user/register" th:href="@{/register}"><span>Register a new membership</span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Reports</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <section class="content-header">
+            <h1>Reports</h1>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/}">CVE</a></li>
+                <li class="active">Reports</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class='col-md-8'>
+                    <p class="alert alert-info">No report yet. Did you subscribe to <a th:href="@{vendors}">vendors
+                        or products</a> ?</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+</body>
+</html>
