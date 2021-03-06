@@ -44,13 +44,6 @@ public class AppController {
         return null;
     }
 
-    @RequestMapping(value="/vendors", method=RequestMethod.GET)
-    public ModelAndView vendors(Model model) {
-        ModelAndView mv = new ModelAndView("vendors");
-        getGravatar(model, 30);
-        return mv;
-    }
-
     @RequestMapping(value="/cwe", method=RequestMethod.GET)
     public ModelAndView cwes(Model model) {
         ModelAndView mv = new ModelAndView("cwes");

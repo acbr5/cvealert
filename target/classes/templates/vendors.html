@@ -174,16 +174,26 @@
                             <h3 class="box-title">Vendors</h3>
                         </div>
                         <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover table-striped">
-                                <tr>
-                                    <th>Vendor</th>
-                                    <th class="text-center">Products</th>
+                            <table class="table" id="vendors">
+                                <thead>
+                                    <th class="text-center">Vendor ID</th>
+                                    <th class="text-center">Vendor Name</th>
                                     <th class="text-center">Actions</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="vendor: ${listVendors}">
+                                    <td class="text-center" th:text="${vendor.id}">Vendor ID</td>
+                                    <td class="text-center" th:text="${vendor.vendorName}">Vendor Name</td>
+                                    <td class="text-center">
+                                        <form th:action="@{/products}" th:object="${product}" method="post">
+                                            <button onclick="highlight_row()" type="submit">Subscribe</button>
+                                        </form>
+                                    </td>
                                 </tr>
-
+                                </tbody>
                             </table>
                             <div class="center">
-                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a>1</a></li><li><a href="/vendors?page=2">2</a></li><li><a href="/vendors?page=3">3</a></li><li><a href="/vendors?page=4">4</a></li><li><a href="/vendors?page=5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/vendors?page=1223">1223</a></li><li><a href="/vendors?page=1224">1224</a></li><li class="next"><a href="/vendors?page=2">&raquo;</a></li></ul>
+                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a href="/vendors/1">1</a></li><li><a href="/vendors/2">2</a></li><li><a href="/vendors/3">3</a></li><li><a href="/vendors/4">4</a></li><li><a href="/vendors/5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/vendors/1223">1223</a></li><li><a href="/vendors/1224">1224</a></li><li class="next"><a href="/vendors/2">&raquo;</a></li></ul>
                             </div>
                         </div>
                     </div>
