@@ -2,11 +2,12 @@ package com.v1.opencve.controller;
 
 import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
+import com.v1.opencve.domainobject.SubscriptionsDO;
 import com.v1.opencve.domainobject.UserDO;
+import com.v1.opencve.domainobject.VendorDO;
 import com.v1.opencve.dto.UserDTO;
-import com.v1.opencve.service.CustomUserDetailsService;
-import com.v1.opencve.service.IUserService;
-import com.v1.opencve.service.UserService;
+import com.v1.opencve.error.MyAccessDeniedHandler;
+import com.v1.opencve.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,10 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class AccountController {
@@ -36,6 +34,12 @@ public class AccountController {
 
     @Autowired
     IUserService userService = new UserService();
+
+    @Autowired
+    IVendorService vendorService = new VendorService();
+
+    @Autowired
+    ISubscriptionsService subsService = new SubscriptionsService();
 
     // For user image of user's email
     private String getGravatar(Model model, Integer size){
@@ -54,9 +58,32 @@ public class AccountController {
 
     @RequestMapping(value="/account/subscriptions", method= RequestMethod.GET)
     public ModelAndView subscriptions(Model model) {
-        ModelAndView mv = new ModelAndView("profiles/subscriptions");
-        getGravatar(model, 30);
-        return mv;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(!(auth instanceof AnonymousAuthenticationToken)){
+            List<VendorDO> listVendors = vendorService.getAllVendors();
+            List<SubscriptionsDO> listSubs = subsService.getAllSubs();
+            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
+            Long userID = userService.getIDByUsername(auth.getName());
+
+            List<VendorDO> listSubscriptions = new ArrayList<>();
+
+            for(SubscriptionsDO subsDOS: listSubs){
+                for(VendorDO vendorDOS: listVendors){
+                    if(subsDOS.getVendorID() == vendorDOS.getId() && subsDOS.getUserID() == userID){
+                        listSubscriptions.add(vendorDOS);
+                    }
+                }
+            }
+            model.addAttribute("listSubscriptions", listSubscriptions);
+            ModelAndView mv = new ModelAndView("profiles/subscriptions");
+            getGravatar(model, 30);
+            return mv;
+        }
+        else {
+            MyAccessDeniedHandler ah = new MyAccessDeniedHandler();
+            ModelAndView mv = new ModelAndView("/errors/403");
+            return mv;
+        }
     }
 
     @RequestMapping(value="/account/", method= RequestMethod.GET)

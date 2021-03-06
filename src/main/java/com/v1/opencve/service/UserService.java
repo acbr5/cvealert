@@ -53,6 +53,15 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Long getIDByUsername(String username) {
+        Optional<UserDO> currentUser = userRepository.findByUsername(username);
+        if(currentUser.isPresent()){
+            return currentUser.get().getId();
+        }
+        return null;
+    }
+
+    @Override
     public Boolean checkIfValidOldPassword(String username, String password) {
         Optional<UserDO> currentUser = userRepository.findByUsername(username);
         String encodedPassword;

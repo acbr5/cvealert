@@ -2,7 +2,7 @@ package com.v1.opencve.controller;
 
 import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
-import com.v1.opencve.domainobject.UserDO;
+import com.v1.opencve.domainobject.SubscriptionsDO;
 import com.v1.opencve.domainobject.VendorDO;
 import com.v1.opencve.service.*;
 import org.json.JSONArray;
@@ -19,10 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
@@ -38,9 +35,17 @@ public class VendorController {
     @Autowired
     private IVendorService vendorService = new VendorService();
 
+    @Autowired
+    private ISubscriptionsService subsService = new SubscriptionsService();
+
+    @Autowired
+    private IUserService userService = new UserService();
+
     // For user image of user's email
     @Autowired
     CustomUserDetailsService userDetailsService;
+
+    List<VendorDO> listVendors;
 
     private String getGravatar(Model model, Integer size){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -101,7 +106,7 @@ public class VendorController {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         try{
-            insertVendorsToTable();
+           // insertVendorsToTable();
         }catch (Exception e){
             e.printStackTrace();
             ModelAndView mv = new ModelAndView("/errors/500");
@@ -109,7 +114,7 @@ public class VendorController {
 
         Page<VendorDO> page = vendorService.listAll(pageNum);
 
-        List<VendorDO> listVendors = page.getContent();
+        listVendors = page.getContent();
 
         model.addAttribute("listVendors", listVendors);
 
@@ -129,8 +134,21 @@ public class VendorController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String product(@ModelAttribute(value="product") VendorDO vendorDO, Map<String, Object> model) {
+    public String product(@ModelAttribute(value="vendorr") VendorDO vendorr, Map<String, Object> model) {
        // vendorService.makeAdmin(vendorDO);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(!(auth instanceof AnonymousAuthenticationToken)) {
+            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
+            Long userID = userService.getIDByUsername(auth.getName());
+            Long vendorID =  vendorr.getId();
+            System.out.println(vendorr);
+            System.out.println("VENDOR ID: "+vendorID);
+            SubscriptionsDO subsDO = new SubscriptionsDO();
+            subsDO.setVendorID(vendorID);
+            subsDO.setUserID(userID);
+            subsService.createSubs(subsDO);
+        }
         return "redirect:vendors";
     }
 }

@@ -185,8 +185,10 @@
                                     <td class="text-center" th:text="${vendor.id}">Vendor ID</td>
                                     <td class="text-center" th:text="${vendor.vendorName}">Vendor Name</td>
                                     <td class="text-center">
-                                        <form th:action="@{/products}" th:object="${product}" method="post">
-                                            <button onclick="highlight_row()" type="submit">Subscribe</button>
+                                        <form th:action="@{/products}" th:object="${vendorr}" method="post">
+                                            <input type="hidden" name="id" th:value="${vendor.id}">
+                                            <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
+                                            <button title="You must be logged in for that." id="subs" type="submit">Subscribe</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -211,5 +213,6 @@
 <script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/main.js}"> </script>
+
 </body>
 </html>

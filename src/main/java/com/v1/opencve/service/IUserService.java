@@ -16,6 +16,8 @@ public interface IUserService{
 
     UserDO getUserByEmail(String email);
 
+    Long getIDByUsername(String username);
+
     Boolean checkIfValidOldPassword(String username, String password);
 
     UserDTO changeUserPassword(UserDO user, String password);
