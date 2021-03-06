@@ -7,10 +7,8 @@ import com.v1.opencve.error.MyAccessDeniedHandler;
 import com.v1.opencve.service.CustomUserDetailsService;
 import com.v1.opencve.service.IUserService;
 import com.v1.opencve.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -45,20 +42,6 @@ public class AppController {
             return userGravatar;
         }
         return null;
-    }
-
-    @RequestMapping(value="/", method=RequestMethod.GET)
-    public ModelAndView home(Model model) {
-        ModelAndView mv = new ModelAndView("cve");
-        getGravatar(model, 30);
-        return mv;
-    }
-
-    @RequestMapping(value="/cve", method=RequestMethod.GET)
-    public ModelAndView cve(Model model) {
-        ModelAndView mv = new ModelAndView("cve");
-        getGravatar(model, 30);
-        return mv;
     }
 
     @RequestMapping(value="/vendors", method=RequestMethod.GET)
