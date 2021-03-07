@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Write</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Write</h3>
+            </div>
+            <div class="box-body">
+                <form action="/blog/write" method="POST" class="form"  th:object="${lettersDO}" role="form">
+                    <fieldset>
+                        <div th:if="${message != null}">
+                            <p class="text-primary">[[${message}]]</p>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="title" th:field="*{title}" id="title" class="form-control"
+                                   placeholder="Title" required="true" autofocus="true" tabindex="200"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="textarea" name="content" th:field="*{content}" class="form-control"
+                                   placeholder="Content" required="true" tabindex="300"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"> </script>
+
+</body>
+</html>
+
+
+
+
