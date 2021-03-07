@@ -2,10 +2,7 @@ package com.v1.opencve.controller;
 
 import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
-import com.v1.opencve.domainobject.SubscriptionsDO;
-import com.v1.opencve.domainobject.UserDO;
-import com.v1.opencve.domainobject.VendorDO;
-import com.v1.opencve.dto.UserDTO;
+import com.v1.opencve.domainobject.*;
 import com.v1.opencve.error.MyAccessDeniedHandler;
 import com.v1.opencve.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +36,13 @@ public class AccountController {
     IVendorService vendorService = new VendorService();
 
     @Autowired
+    IProductsService productsService = new ProductsService();
+
+    @Autowired
     ISubscriptionsService subsService = new SubscriptionsService();
+
+    @Autowired
+    ISubsProductService subsProductService = new SubsProductService();
 
     // For user image of user's email
     private String getGravatar(Model model, Integer size){
@@ -60,6 +63,7 @@ public class AccountController {
     public ModelAndView subscriptions(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(!(auth instanceof AnonymousAuthenticationToken)){
+            // For vendor subscriptions
             List<VendorDO> listVendors = vendorService.getAllVendors();
             List<SubscriptionsDO> listSubs = subsService.getAllSubs();
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
@@ -75,6 +79,21 @@ public class AccountController {
                 }
             }
             model.addAttribute("listSubscriptions", listSubscriptions);
+
+            // For product subscriptions
+            List<ProductsDO> listProducts = productsService.getAllProducts();
+            List<SubsProductDO> listSubsPro = subsProductService.getAllSubs();
+
+            List<ProductsDO> listProductSubscriptions = new ArrayList<>();
+
+            for(SubsProductDO subsDOS: listSubsPro){
+                for(ProductsDO productsDO: listProducts){
+                    if(subsDOS.getProductID() == productsDO.getId() && subsDOS.getUserID() == userID){
+                        listProductSubscriptions.add(productsDO);
+                    }
+                }
+            }
+            model.addAttribute("listProductSubs", listProductSubscriptions);
             ModelAndView mv = new ModelAndView("profiles/subscriptions");
             getGravatar(model, 30);
             return mv;

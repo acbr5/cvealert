@@ -1,8 +1,6 @@
 {
     "product": null,
     "vendor": [
-        "*",
-        "-",
         ".bbsoftware",
         ".joomclan",
         ".matteoiammarrone",

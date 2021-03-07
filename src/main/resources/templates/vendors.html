@@ -178,6 +178,7 @@
                                 <thead>
                                     <th class="text-center">Vendor ID</th>
                                     <th class="text-center">Vendor Name</th>
+                                    <th class="text-center">Products</th>
                                     <th class="text-center">Actions</th>
                                 </thead>
                                 <tbody>
@@ -185,7 +186,14 @@
                                     <td class="text-center" th:text="${vendor.id}">Vendor ID</td>
                                     <td class="text-center" th:text="${vendor.vendorName}">Vendor Name</td>
                                     <td class="text-center">
-                                        <form th:action="@{/products}" th:object="${vendorr}" method="post">
+                                        <form th:action="@{/product-action}" th:object="${vendorForProduct}" method="post">
+                                            <input type="hidden" name="id" th:value="${vendor.id}">
+                                            <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
+                                            <button title="Show its all products." id="products" type="submit">Products</button>
+                                        </form>
+                                    </td>
+                                    <td class="text-center">
+                                        <form th:action="@{/vendor-action}" th:object="${vendorr}" method="post">
                                             <input type="hidden" name="id" th:value="${vendor.id}">
                                             <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
                                             <button title="You must be logged in for that." id="subs" type="submit">Subscribe</button>

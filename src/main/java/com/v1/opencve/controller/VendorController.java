@@ -106,7 +106,7 @@ public class VendorController {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         try{
-           // insertVendorsToTable();
+            insertVendorsToTable();
         }catch (Exception e){
             e.printStackTrace();
             ModelAndView mv = new ModelAndView("/errors/500");
@@ -133,17 +133,14 @@ public class VendorController {
         return viewPage(model, 1);
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String product(@ModelAttribute(value="vendorr") VendorDO vendorr, Map<String, Object> model) {
-       // vendorService.makeAdmin(vendorDO);
+    @RequestMapping(value = "/vendor-action", method = RequestMethod.POST)
+    public String action(@ModelAttribute(value="vendorr") VendorDO vendorr, Map<String, Object> model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!(auth instanceof AnonymousAuthenticationToken)) {
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
             Long userID = userService.getIDByUsername(auth.getName());
             Long vendorID =  vendorr.getId();
-            System.out.println(vendorr);
-            System.out.println("VENDOR ID: "+vendorID);
             SubscriptionsDO subsDO = new SubscriptionsDO();
             subsDO.setVendorID(vendorID);
             subsDO.setUserID(userID);

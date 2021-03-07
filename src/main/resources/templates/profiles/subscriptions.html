@@ -13,7 +13,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="text-center">My vendors</h3>
+                        <h3 class="text-center">My Vendors</h3>
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
@@ -36,12 +36,23 @@
 
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="text-center">My products</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="table-responsive">
-
+                    <div class="table-responsive">
+                        <div class="box-header with-border">
+                            <h3 class="text-center">My Products</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="table" id="myProducts">
+                                <thead>
+                                <th class="text-center">Product ID</th>
+                                <th class="text-center">Product Name</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="myProduct: ${listProductSubs}">
+                                    <td class="text-center" th:text="${myProduct.id}">Product ID</td>
+                                    <td class="text-center" th:text="${myProduct.productName}">Product Name</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

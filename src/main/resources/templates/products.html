@@ -171,39 +171,32 @@
                 <div class='col-lg-12' >
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Vendors</h3>
+                            <h3 class="box-title">Products</h3>
                         </div>
                         <div class="box-body table-responsive no-padding">
-                            <table class="table" id="vendors">
+                            <table class="table" id="product">
                                 <thead>
-                                    <th class="text-center">Vendor ID</th>
+                                    <th class="text-center">Product ID</th>
+                                    <th class="text-center">Product Name</th>
                                     <th class="text-center">Vendor Name</th>
-                                    <th class="text-center">Products</th>
                                     <th class="text-center">Actions</th>
                                 </thead>
                                 <tbody>
-                                <tr th:each="vendor: ${listVendors}">
-                                    <td class="text-center" th:text="${vendor.id}">Vendor ID</td>
-                                    <td class="text-center" th:text="${vendor.vendorName}">Vendor Name</td>
-                                    <td class="text-center">
-                                        <form th:action="@{/product-action}" th:object="${vendorForProduct}" method="post">
-                                            <input type="hidden" name="id" th:value="${vendor.id}">
-                                            <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
-                                            <button title="Show its all products." id="products" type="submit">Products</button>
-                                        </form>
-                                    </td>
-                                    <td class="text-center">
-                                        <form th:action="@{/vendor-action}" th:object="${vendorr}" method="post">
-                                            <input type="hidden" name="id" th:value="${vendor.id}">
-                                            <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
-                                            <button title="You must be logged in for that." id="subs" type="submit">Subscribe</button>
-                                        </form>
+                                <tr th:each="product: ${listProducts}">
+                                    <td class="text-center" th:text="${product.id}">Product ID</td>
+                                    <td class="text-center" th:text="${product.productName}">Product Name</td>
+                                    <td class="text-center" th:text="${getVendorName}">Vendor Name</td>
+                                    <td><form th:action="@{/subsProduct}" th:object="${getProduct}" method="post">
+                                        <input type="hidden" name="id" th:value="${product.id}">
+                                        <input type="hidden" name="id" th:value="${product.productName}">
+                                        <button title="You must be logged in for that." id="subsProduct" type="submit">Subscribe</button>
+                                    </form>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="center">
-                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a href="/vendors/1">1</a></li><li><a href="/vendors/2">2</a></li><li><a href="/vendors/3">3</a></li><li><a href="/vendors/4">4</a></li><li><a href="/vendors/5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/vendors/1223">1223</a></li><li><a href="/vendors/1224">1224</a></li><li class="next"><a href="/vendors/2">&raquo;</a></li></ul>
+                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a href="/products/1">1</a></li><li><a href="/products/2">2</a></li><li><a href="/products/3">3</a></li><li><a href="/products/4">4</a></li><li><a href="/products/5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/products/100">100</a></li><li><a href="/products/101">101</a></li><li class="next"><a href="/products/2">&raquo;</a></li></ul>
                             </div>
                         </div>
                     </div>
