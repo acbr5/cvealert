@@ -54,7 +54,7 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         model.addAttribute("username", name);
-        return "/user/login";
+        return "user/login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.POST)
@@ -70,7 +70,7 @@ public class LoginController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("userDO", new UserDO());
-        return ("/user/register");
+        return ("user/register");
     }
 
     @PostMapping("/process_register")

@@ -73,7 +73,7 @@ public class AppController {
         }
         else {
             MyAccessDeniedHandler ah = new MyAccessDeniedHandler();
-            ModelAndView mv = new ModelAndView("/errors/403");
+            ModelAndView mv = new ModelAndView("errors/403");
             return mv;
         }
     }

@@ -103,7 +103,7 @@ public class ProductController {
             insertProductsToTable(vendorName, vendorID);
         }catch (Exception e){
             e.printStackTrace();
-            ModelAndView mv = new ModelAndView("/errors/500");
+            ModelAndView mv = new ModelAndView("errors/500");
         }
 
         Page<ProductsDO> page = productsService.listAll(pageNum);
@@ -135,7 +135,7 @@ public class ProductController {
         model.addAttribute("getVendorName", vendorName);
         redirectAttributes.addAttribute("pageNum", 1);
         viewPage(vendorName,1, vendorID, model);
-        return "redirect:/products/{vendorName}/{pageNum}/";
+        return "redirect:products/{vendorName}/{pageNum}/";
     }
 
     @RequestMapping(value = "/subsProduct", method = RequestMethod.POST)

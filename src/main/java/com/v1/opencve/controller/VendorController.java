@@ -109,7 +109,7 @@ public class VendorController {
             insertVendorsToTable();
         }catch (Exception e){
             e.printStackTrace();
-            ModelAndView mv = new ModelAndView("/errors/500");
+            ModelAndView mv = new ModelAndView("errors/500");
         }
 
         Page<VendorDO> page = vendorService.listAll(pageNum);

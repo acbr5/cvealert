@@ -87,7 +87,7 @@ public class BlogController {
     public String Write(Model model){
         ModelAndView modelAndView = new ModelAndView();
         model.addAttribute("lettersDO", new BlogDO());
-        return ("/write");
+        return ("write");
     }
 
     @RequestMapping(value = "/blog/write", method = {RequestMethod.GET, RequestMethod.POST})

@@ -100,7 +100,7 @@ public class AccountController {
         }
         else {
             MyAccessDeniedHandler ah = new MyAccessDeniedHandler();
-            ModelAndView mv = new ModelAndView("/errors/403");
+            ModelAndView mv = new ModelAndView("errors/403");
             return mv;
         }
     }
@@ -114,7 +114,7 @@ public class AccountController {
 
     @RequestMapping(value = "/profile/forgot-password", method = RequestMethod.GET)
     public ModelAndView forgotPassword(Model model) {
-        ModelAndView mv = new ModelAndView("/user/forgot_password");
+        ModelAndView mv = new ModelAndView("user/forgot_password");
         getGravatar(model, 30);
         return mv;
     }
@@ -287,7 +287,7 @@ public class AccountController {
         ModelAndView mv;
         if (Arrays.asList("edit_user_profile", "change_password", "change_username", "change_email")
                 .contains(tab)) {
-            mv = new ModelAndView("/user/"+tab);
+            mv = new ModelAndView("user/"+tab);
             return mv;
         }
         getGravatar(model, 30);
