@@ -69,7 +69,7 @@ public class MyErrorController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return "error";
     }
 
     @RequestMapping(value = "/errors/403", method = RequestMethod.GET)

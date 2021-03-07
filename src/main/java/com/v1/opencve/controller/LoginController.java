@@ -63,7 +63,7 @@ public class LoginController {
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        ModelAndView mv = new ModelAndView("redirect:/login");
+        ModelAndView mv = new ModelAndView("redirect:login");
         return mv;
     }
 
@@ -108,7 +108,7 @@ public class LoginController {
             params.put("messages2","Email already exists! Please type another email.");
         }
         if (bindingResult.hasErrors()) {
-            ModelAndView mvv = new ModelAndView("/user/register", params);
+            ModelAndView mvv = new ModelAndView("user/register", params);
             return mvv;
         } else {
             encodedPassword = passwordEncoder.encode(password);
