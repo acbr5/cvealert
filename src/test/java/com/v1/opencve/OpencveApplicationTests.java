@@ -74,10 +74,10 @@ class OpencveApplicationTests {
 
 		newUser.setIsAdmin(true);
 		newUser.setPassword("123456Aburak");
-		newUser.setEmail("aysemburak@gmail.com");
+		newUser.setEmail("aysemmmburak@gmail.com");
 		newUser.setLast_name("burak");
 		newUser.setFirst_name("aysenur");
-		newUser.setUsername("aysemnurb");
+		newUser.setUsername("aysenurrrrburak");
 		newUser.setEnable_notifications(true);
 
 
@@ -93,7 +93,7 @@ class OpencveApplicationTests {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.email").exists())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.enable_notifications").exists())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.isAdmin").exists())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.username").value("aysen"));
+				.andExpect(MockMvcResultMatchers.jsonPath("$.username").value("aysenurrrrburak"));
 	}
 
 	@Test
@@ -101,10 +101,10 @@ class OpencveApplicationTests {
 		UserDO newUser = new UserDO();
 
 		newUser.setId(11L);
-		newUser.setUsername("aysenurburak");
+		newUser.setUsername("aysenurrrrburak");
 		newUser.setFirst_name("BURAK");
 		newUser.setLast_name("aysenur");
-		newUser.setEmail("imrulkaysnfk000@gmail.com");
+		newUser.setEmail("imrulkaysnfk0000@gmail.com");
 
 		mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users")
 				.contentType(MediaType.APPLICATION_JSON)
