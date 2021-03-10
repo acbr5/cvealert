@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:form="http://www.w3.org/1999/xhtml">
 <th:block th:insert="home_blank :: head"></th:block>
-<title>Register - Success</title>
+<title>Verify - Success</title>
 </head>
 
 <body class="hold-transition login-page">
@@ -12,8 +12,9 @@
     <div class="container">
         <div class="jumbotron">
             <th:block th:insert="home_blank :: body"> </th:block>
-            <h3>You have signed up successfully!</h3>
+            <h3>Congratulations, your account has been verified.</h3>
             <p>Please check your email to verify your account.</p>
+            <h4><a th:href="@{/login}">Click here to Login</a></h4>
         </div>
     </div>
 </div>

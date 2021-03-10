@@ -15,11 +15,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     private IUserService userService = new UserService();
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDO user = userService.getUserByUsername(username);
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        UserDO user = userService.getUserByUsername(usernameOrEmail);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            UserDO userDO = userService.getUserByEmail(usernameOrEmail);
+            if(userDO == null){
+                throw new UsernameNotFoundException("User not found");
+            }
+            else return new CustomUserDetails(userDO);
         }
-        return new CustomUserDetails(user);
+        else return new CustomUserDetails(user);
     }
 }

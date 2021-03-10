@@ -26,6 +26,11 @@ public class UserRepository implements IUserRepository{
         return null;
     }
 
+    @Override
+    public UserDO findByVerificationCode(String code) {
+        return null;
+    }
+
 
     @Override
     public List<UserDO> findAll() {

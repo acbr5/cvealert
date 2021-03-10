@@ -15,4 +15,7 @@ public interface IUserRepository extends JpaRepository<UserDO, Long> {
 
     @Query("SELECT u FROM UserDO u WHERE u.email = ?1")
     public Optional<UserDO> findUserByEmail(String email);
+
+    @Query("SELECT u FROM UserDO u WHERE u.verificationCode = ?1")
+    public UserDO findByVerificationCode(String code);
 }

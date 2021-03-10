@@ -7,6 +7,7 @@ import com.v1.opencve.service.CustomUserDetailsService;
 import com.v1.opencve.service.IUserService;
 import com.v1.opencve.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -79,7 +82,8 @@ public class LoginController {
                                         @RequestParam("username") String username,
                                         @RequestParam("email") String email,
                                         @RequestParam("password") String password,
-                                        @RequestParam("retype_password") String retype_password) throws UnsupportedEncodingException {
+                                        @RequestParam("retype_password") String retype_password,
+                                        HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword;
         ModelAndView modelAndView = new ModelAndView();
@@ -119,8 +123,22 @@ public class LoginController {
             userService.createUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserDO());
+            userService.register(user, getSiteURL(request));
             modelAndView.setViewName("user/register_success");
             return modelAndView;
+        }
+    }
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
+
+    @GetMapping("/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (userService.verify(code)) {
+            return "user/verify_success";
+        } else {
+            return "user/verify_fail";
         }
     }
 }

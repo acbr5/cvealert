@@ -3,6 +3,8 @@ package com.v1.opencve.service;
 import com.v1.opencve.domainobject.UserDO;
 import com.v1.opencve.dto.UserDTO;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -36,5 +38,9 @@ public interface IUserService{
 
     void deleteUser(Long userID);
 
-    void register(UserDO user, String siteURL) throws UnsupportedEncodingException;
+    void register(UserDO user, String siteURL) throws UnsupportedEncodingException, MessagingException;
+
+    void sendVerificationEmail(UserDO user, String siteURL) throws MessagingException, UnsupportedEncodingException;
+
+    boolean verify(String verificationCode);
 }
