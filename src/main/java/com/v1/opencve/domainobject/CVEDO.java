@@ -21,10 +21,16 @@ public class CVEDO {
     private String description;
 
     @Column(length = 15)
-    private String cvssv2;
+    private Double cvssv2BaseScore;
 
     @Column(length = 15)
-    private String cvssv3;
+    private String cvssv2Severity;
+
+    @Column(length = 15)
+    private Double cvssv3BaseScore;
+
+    @Column(length = 15)
+    private String cvssv3Severity;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)

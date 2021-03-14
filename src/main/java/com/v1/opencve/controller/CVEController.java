@@ -3,6 +3,9 @@ package com.v1.opencve.controller;
 import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.CVEDO;
+import com.v1.opencve.domainobject.CVEProductDO;
+import com.v1.opencve.domainobject.ProductsDO;
+import com.v1.opencve.domainobject.VendorDO;
 import com.v1.opencve.repository.CVERepository;
 import com.v1.opencve.repository.ICVERepository;
 import com.v1.opencve.service.*;
@@ -38,8 +41,14 @@ public class CVEController {
     @Autowired
     private ICVERepository cveRepository = new CVERepository();
 
-    List<String> vendors;
-    List<String> products;
+    @Autowired
+    private IVendorService vendorService = new VendorService();
+
+    @Autowired
+    IProductsService productsService = new ProductsService();
+
+    @Autowired
+    ICveProductService cveProductService = new CveProductService();
 
     ResourcePatternResolver resourcePatternResolver;
     Resource[] resources;
@@ -73,8 +82,6 @@ public class CVEController {
     public void insertCVEsToTable() throws IOException, ParseException {
         listAllFilesFromFolder();
 
-        vendors = new ArrayList<>();
-        products = new ArrayList<>();
         for (int x=0; x<resources.length; x++){
             StringBuilder result = new StringBuilder();
             InputStream inputStream = resources[x].getInputStream();
@@ -102,7 +109,9 @@ public class CVEController {
                     JSONObject jsonobject = description_data.optJSONObject(0);
                     value = jsonobject.optString("value");
 
-                    String cvssv3="", cvssv2="";
+                    Double cvssv2BaseScore=0., cvssv3BaseScore=0.;
+                    String cvssv2Severity = "", cvssv3Severity="";
+
                     Date publishedDate, lastModifiedDate;
 
                     JSONObject impact =  jsonPlant.optJSONObject("impact");
@@ -110,14 +119,17 @@ public class CVEController {
                         if(!impact.isNull("baseMetricV3") && !impact.optJSONObject("baseMetricV3").isEmpty()){
                             JSONObject baseMetricV3 =  impact.optJSONObject("baseMetricV3");
                             JSONObject cvssV3 =  baseMetricV3.optJSONObject("cvssV3");
-                            cvssv3 =  cvssV3.optDouble("baseScore") + " " +  cvssV3.optString("baseSeverity");
+                            cvssv3BaseScore = cvssV3.optDouble("baseScore");
+                            cvssv3Severity = cvssV3.optString("baseSeverity");
                         }
                         if(!impact.isNull("baseMetricV2")){
                             JSONObject baseMetricV2 = impact.optJSONObject("baseMetricV2");
                             JSONObject cvssV2 = baseMetricV2.optJSONObject("cvssV2");
-                            cvssv2 = cvssV2.optDouble("baseScore") + " " + baseMetricV2.optString("severity");
+                            cvssv2BaseScore = cvssV2.optDouble("baseScore");
+                            cvssv2Severity = baseMetricV2.optString("severity");
                         }
                     }
+
                     SimpleDateFormat obj = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
 
                     publishedDate = jsonPlant.isNull("publishedDate") ? null : obj.parse(jsonPlant.optString("publishedDate"));
@@ -125,11 +137,85 @@ public class CVEController {
 
                     cveDO.setCveid(cve_id);
                     cveDO.setDescription(value);
-                    cveDO.setCvssv3(cvssv3);
-                    cveDO.setCvssv2(cvssv2);
+                    cveDO.setCvssv2BaseScore(cvssv2BaseScore);
+                    cveDO.setCvssv2Severity(cvssv2Severity);
+                    cveDO.setCvssv3BaseScore(cvssv3BaseScore);
+                    cveDO.setCvssv3Severity(cvssv3Severity);
                     cveDO.setPublishedDate(publishedDate);
                     cveDO.setLastModifiedDate(lastModifiedDate);
                     cveService.createCVE(cveDO);
+
+                    JSONObject configurations =  jsonPlant.optJSONObject("configurations");
+                    if(!configurations.isEmpty()){
+                        if(!configurations.isNull("nodes")) {
+                            JSONObject nodes = (configurations.isNull("nodes") ? null : configurations.optJSONArray("nodes")).optJSONObject(0);
+                            if(nodes!=null){
+                                if (!nodes.isNull("children")) {
+                                    JSONArray children = nodes.optJSONArray("children");
+                                    for (int j = 0; j < children.length(); j++) {
+                                        JSONObject children1 = children.optJSONObject(j);
+                                        JSONArray cpe_match_arr = children1.optJSONArray("cpe_match");
+                                        for(int k=0; k<cpe_match_arr.length(); k++){
+                                            JSONObject cpe_match = cpe_match_arr.optJSONObject(k);
+                                            String vendor = cpe_match.optString("cpe23Uri").split(":")[3];
+                                            String product = cpe_match.optString("cpe23Uri").split(":")[4];
+
+                                            VendorDO vendorDO = new VendorDO();
+                                            if(!vendorService.isExist(vendor)){
+                                                vendorDO.setVendorName(vendor);
+                                                vendorService.createVendor(vendorDO);
+                                            }
+
+                                            ProductsDO productsDO = new ProductsDO();
+                                            if(!productsService.isExist(product)){
+                                                productsDO.setProductName(product);
+                                                productsDO.setVendorID(vendorService.getVendorByName(vendor).getId());
+                                                productsService.createProduct(productsDO);
+                                            }
+
+                                            CVEProductDO cveProductDO = new CVEProductDO();
+                                            if(!cveProductService.isCVEExist(cveDO.getId(), productsService.getProductByProductName(product).getId())){
+                                                cveProductDO.setCveID(cveDO.getId());
+                                                cveProductDO.setCveName(cveDO.getCveid());
+                                                cveProductDO.setProductID(productsService.getProductByProductName(product).getId());
+                                                cveProductDO.setProductName(productsService.getProductByProductName(product).getProductName());
+                                                cveProductService.createRow(cveProductDO);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    JSONArray cpe_match_arr = nodes.optJSONArray("cpe_match");
+                                    for(int k=0; k<cpe_match_arr.length(); k++){
+                                        JSONObject cpe_match = cpe_match_arr.optJSONObject(k);
+                                        String vendor = cpe_match.optString("cpe23Uri").split(":")[3];
+                                        String product = cpe_match.optString("cpe23Uri").split(":")[4];
+
+                                        VendorDO vendorDO = new VendorDO();
+                                        if(!vendorService.isExist(vendor)){
+                                            vendorDO.setVendorName(vendor);
+                                            vendorService.createVendor(vendorDO);
+                                        }
+
+                                        ProductsDO productsDO = new ProductsDO();
+                                        if(!productsService.isExist(product)){
+                                            productsDO.setProductName(product);
+                                            productsDO.setVendorID(vendorService.getVendorByName(vendor).getId());
+                                            productsService.createProduct(productsDO);
+                                        }
+
+                                        CVEProductDO cveProductDO = new CVEProductDO();
+                                        if(!cveProductService.isCVEExist(cveDO.getId(), productsService.getProductByProductName(product).getId())){
+                                            cveProductDO.setCveID(cveDO.getId());
+                                            cveProductDO.setCveName(cveDO.getCveid());
+                                            cveProductDO.setProductID(productsService.getProductByProductName(product).getId());
+                                            cveProductDO.setProductName(productsService.getProductByProductName(product).getProductName());
+                                            cveProductService.createRow(cveProductDO);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -152,14 +238,28 @@ public class CVEController {
 
         Page<CVEDO> page = cveService.listAll(pageNum);
 
-        List<CVEDO> listProducts = page.getContent();
+        List<CVEDO> listCVEs = page.getContent();
 
-        model.addAttribute("listCVEs", listProducts);
+        List<CVEProductDO> allCVEProducts = cveProductService.getAllRows();
+        List<Long> list = new ArrayList<>();
+        for(CVEDO cvedo: listCVEs){
 
+            Long cveID = cvedo.getId();
+            for(int i=0; i<allCVEProducts.size(); i++){
+                if((allCVEProducts.get(i).getCveID()) == cveID){
+                    list.add(allCVEProducts.get(i).getId());
+                }
+            }
+
+
+        }
+        List<CVEProductDO> liste = cveProductService.getAllById(list);
+        model.addAttribute("listProducts", liste);
+        model.addAttribute("listCVEs", listCVEs);
+      /*  model.addAttribute("listProducts", listProducts);*/
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listProducts", listProducts);
 
         getGravatar(model, 30);
         return "cve";

@@ -40,8 +40,10 @@ public class CVEService implements ICVEService{
         long cveID = cve.getId();
         Optional<CVEDO> currentCVE = cveRepository.findById(cveID);
         if(currentCVE.isPresent()){
-            currentCVE.get().setCvssv2(cve.getCvssv2());
-            currentCVE.get().setCvssv3(cve.getCvssv3());
+            currentCVE.get().setCvssv2BaseScore(cve.getCvssv2BaseScore());
+            currentCVE.get().setCvssv3BaseScore(cve.getCvssv3BaseScore());
+            currentCVE.get().setCvssv2Severity(cve.getCvssv2Severity());
+            currentCVE.get().setCvssv3Severity(cve.getCvssv3Severity());
             currentCVE.get().setLastModifiedDate(cve.getLastModifiedDate());
             currentCVE.get().setDescription(cve.getDescription());
 

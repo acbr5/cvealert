@@ -196,14 +196,41 @@
                                         <form th:action="@{/vendor-action}" th:object="${vendorr}" method="post">
                                             <input type="hidden" name="id" th:value="${vendor.id}">
                                             <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
-                                            <button title="You must be logged in for that." id="subs" type="submit">Subscribe</button>
+                                            <button title="You must be logged in for this action." id="subs" type="submit">Subscribe</button>
                                         </form>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="center">
-                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a href="/vendors/1">1</a></li><li><a href="/vendors/2">2</a></li><li><a href="/vendors/3">3</a></li><li><a href="/vendors/4">4</a></li><li><a href="/vendors/5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/vendors/1223">1223</a></li><li><a href="/vendors/1224">1224</a></li><li class="next"><a href="/vendors/2">&raquo;</a></li></ul>
+                                <ul class="pagination">
+                                <li class="previous">
+                                    <th:block th:if="${currentPage > 1}">
+                                        <a th:href="@{'/vendors/'+${currentPage-1}}"> &laquo; </a>
+                                    </th:block>
+                                </li>
+                                <li class="active">
+                                    <th:block th:if="${totalPages >= 1}">
+                                        <a href="/vendors/1">1</a>
+                                    </th:block>
+                                </li><li>
+                                <th:block th:if="${totalPages >= 2}">
+                                    <a href="/vendors/2">2</a>
+                                </th:block></li><li>
+                                <th:block th:if="${totalPages >= 3}">
+                                    <a href="/vendors/3">3</a>
+                                </th:block></li><li>
+                                <th:block th:if="${totalPages >= 4}">
+                                    <a href="/vendors/4">4</a>
+                                </th:block></li><li>
+                                <th:block th:if="${totalPages >= 5}">
+                                    <a href="/vendors/5">5</a>
+                                </th:block></li><li class="disabled"><a>...</a></li><li><a th:href="@{'/vendors/'+${totalPages}}" th:text="${totalPages}"></a></li>
+                                <li class="next">
+                                    <th:block th:if="${currentPage != totalPages}">
+                                        <a th:href="@{'/vendors/'+${currentPage+1}}">&raquo;</a>
+                                    </th:block>
+                                </li></ul>
                             </div>
                         </div>
                     </div>
@@ -211,10 +238,6 @@
             </div>
         </section>
     </div>
-
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2021</strong>
-    </footer>
 
 </div>
 

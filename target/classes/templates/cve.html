@@ -72,7 +72,7 @@
                     <div class="breadcrumb">
                         <span class="info-box-icon bg-dark" style="float: left; margin-top: 10px;"><i class="fa fa-shield fa-5x"></i></span>
                         <h4>&nbsp;&nbsp;Total</h4>
-                        <h5><strong>&nbsp;&nbsp;158366</strong></h5>
+                        <h5 th:text="${totalItems}"><strong>&nbsp;&nbsp;</strong></h5>
                         <h5><strong>&nbsp;&nbsp;CVE</strong></h5>
                         <br>
                     </div>
@@ -80,43 +80,99 @@
             </div>
 
             <div class="row">
-                <div class='col-md-12'>
-                    <div class="box box-primary">
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table" id="cves">
-                                <thead>
-                                    <th>CVE</th>
-                                    <th>Published Date</th>
-                                    <th>Updated Date</th>
-                                    <th class="text-center">CVSS V2</th>
-                                    <th class="text-center">CVSS v3</th>
-                                    <th class="text-center">Description</th>
-                                </thead>
-                                <tbody>
-                                <tr th:each="cve: ${listCVEs}">
-                                    <td th:text="${cve.cveid}">CVE</td>
-                                    <td th:text="${cve.publishedDate}">Published Date</td>
-                                    <td th:text="${cve.lastModifiedDate}">Updated Date</td>
-                                    <td th:text="${cve.cvssv2}">CVSS V2</td>
-                                    <td th:text="${cve.cvssv3}">CVSS V3</td>
-                                    <td th:text="${cve.description}">Description</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="center">
-                                <ul class="pagination"><li class="previous disabled unavailable"><a> &laquo; </a></li><li class="active"><a href="/cve/1">1</a></li><li><a href="/cve/2">2</a></li><li><a href="/cve/3">3</a></li><li><a href="/cve/4">4</a></li><li><a href="/cve/5">5</a></li><li class="disabled"><a>...</a></li><li><a href="/cve/7918">7918</a></li><li><a href="/cve/7919">7919</a></li><li class="next"><a href="/cve/=2">&raquo;</a></li></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                  <div class='col-md-12'>
+                      <div class="box box-primary">
+                          <div class="box-body table-responsive no-padding">
+                              <table class="table" id="cves">
+                                  <thead>
+                                      <th>CVE</th>
+                                      <th>Vendors</th>
+                                      <th>Products</th>
+                                      <th>Published Date</th>
+                                      <th>Updated Date</th>
+                                      <th>CVSS V2</th>
+                                      <th>CVSS V3</th>
+                                  </thead>
+                                  <tbody>
+                                  <th:block th:each="cve: ${listCVEs}">
+                                    <tr>
+                                        <td class="font-weight-bold"><a th:href="@{'https://nvd.nist.gov/vuln/detail/'+${cve.cveid}}" th:text="${cve.cveid}"></a></td>
+
+                                        <td th:text="Products">Vendors</td>
+
+                                        <td th:each="products, index: ${listProducts}" th:if="${products.cveName == cve.cveid}" th:text="${index.count}">Products</td>
+
+                                        <td th:text="${cve.publishedDate}">Published Date</td>
+
+                                        <td th:text="${cve.lastModifiedDate}">Updated Date</td>
+
+                                        <th:block th:if="${cve.cvssv2BaseScore >= 0.1 and 3.9 >= cve.cvssv2BaseScore}">
+                                            <td class="p-3 mb-2 bg-info text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv2BaseScore >= 4.0 and 6.9 >= cve.cvssv2BaseScore}">
+                                            <td class="p-3 mb-2 bg-warning text-dark" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv2BaseScore >= 7.0 and 8.9 >= cve.cvssv2BaseScore}">
+                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv2BaseScore >= 9.0 and 10.0 >= cve.cvssv2BaseScore}">
+                                            <td class="p-3 mb-2 bg-dark text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                        </th:block>
+
+                                        <th:block th:if="${cve.cvssv3BaseScore >= 0.1 and 3.9 >= cve.cvssv3BaseScore}">
+                                            <td class="p-3 mb-2 bg-info text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv3BaseScore >= 4.0 and 6.9 >= cve.cvssv3BaseScore}">
+                                            <td class="p-3 mb-2 bg-warning text-dark" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv3BaseScore >= 7.0 and 8.9 >= cve.cvssv3BaseScore}">
+                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                        </th:block>
+                                        <th:block th:if="${cve.cvssv3BaseScore >= 9.0 and 10.0 >= cve.cvssv3BaseScore}">
+                                            <td class="p-3 mb-2 bg-dark text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                        </th:block>
+                                    </tr>
+                                    <tr> <td style="border:none" class="text-left" colspan="6" th:text="${cve.description}">Description</td> </tr>
+                                  </th:block>
+                                  </tbody>
+                              </table>
+                              <div class="center">
+                                  <ul class="pagination">
+                                      <li class="previous">
+                                          <th:block th:if="${currentPage > 1}">
+                                              <a th:href="@{'/cve/'+${currentPage-1}}"> &laquo; </a>
+                                          </th:block>
+                                      </li>
+                                      <li class="active">
+                                          <th:block th:if="${totalPages >= 1}">
+                                            <a href="/cve/1">1</a>
+                                          </th:block>
+                                      </li><li>
+                                      <th:block th:if="${totalPages >= 2}">
+                                          <a href="/cve/2">2</a>
+                                      </th:block></li><li>
+                                      <th:block th:if="${totalPages >= 3}">
+                                        <a href="/cve/3">3</a>
+                                      </th:block></li><li>
+                                      <th:block th:if="${totalPages >= 4}">
+                                          <a href="/cve/4">4</a>
+                                      </th:block></li><li>
+                                      <th:block th:if="${totalPages >= 5}">
+                                          <a href="/cve/5">5</a>
+                                      </th:block></li><li class="disabled"><a>...</a></li><li><a th:href="@{'/cve/'+${totalPages}}" th:text="${totalPages}"></a></li>
+                                      <li class="next">
+                                          <th:block th:if="${currentPage != totalPages}">
+                                              <a th:href="@{'/cve/'+${currentPage+1}}">&raquo;</a>
+                                          </th:block>
+                                      </li></ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
         </section>
     </div>
 </div>
-
-<footer class="main-footer">
-    <strong>Copyright &copy; 2021</strong>
-</footer>
 
 </div>
 <script th:src="@{/js/jquery-1.12.4.min.js}" crossorigin="anonymous"></script>

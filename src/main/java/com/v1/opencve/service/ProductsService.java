@@ -1,5 +1,6 @@
 package com.v1.opencve.service;
 
+import com.v1.opencve.domainobject.CVEDO;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.repository.IProductsRepository;
 import com.v1.opencve.repository.ProductsRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,13 +58,12 @@ public class ProductsService implements IProductsService{
         return false;
     }
 
-
     @Override
-    public Page<ProductsDO> listAll(int pageNum) {
-        int pageSize = 10;
+    public Page<ProductsDO> listAll(int pageNum, List<Long> ids) {
+        int pageSize = 25;
 
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
 
-        return productsRepository.findAll(pageable);
+        return productsRepository.findByIdIn(ids, pageable);
     }
 }

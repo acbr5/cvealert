@@ -106,22 +106,23 @@ public class ProductController {
             ModelAndView mv = new ModelAndView("errors/500");
         }
 
-        Page<ProductsDO> page = productsService.listAll(pageNum);
+        Long vendor_ID = vendorService.getVendorByName(vendorName).getId();
+        List<ProductsDO> allProducts = productsService.getAllProducts();
+        List<Long> list = new ArrayList<>();
 
-        List<ProductsDO> listProducts = page.getContent();
-
-        List<ProductsDO> list = new ArrayList<>();
-        for(int i=0; i<listProducts.size(); i++){
-            if((listProducts.get(i).getVendorID()) == (vendorService.getVendorByName(vendorName)).getId()){
-                list.add(listProducts.get(i));
+        for(int i=0; i<allProducts.size(); i++){
+            if((allProducts.get(i).getVendorID()) == vendor_ID){
+                list.add(allProducts.get(i).getId());
             }
         }
-        model.addAttribute("listProducts", list);
+        Page<ProductsDO> page = productsService.listAll(pageNum, list);
+        List<ProductsDO> listProducts = page.getContent();
+
+        model.addAttribute("listProducts", listProducts);
         model.addAttribute("getVendorName", vendorName);
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listProducts", list);
         getGravatar(model, 30);
         return "products.html";
     }

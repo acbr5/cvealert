@@ -57,7 +57,7 @@ public class VendorService implements IVendorService{
 
     @Override
     public Page<VendorDO> listAll(int pageNum) {
-        int pageSize = 10;
+        int pageSize = 25;
 
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
 

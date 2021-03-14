@@ -21,6 +21,11 @@ public class ProductsRepository implements IProductsRepository{
     }
 
     @Override
+    public Page<ProductsDO> findByIdIn(List<Long> ids, Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public List<ProductsDO> findAll() {
         return null;
     }

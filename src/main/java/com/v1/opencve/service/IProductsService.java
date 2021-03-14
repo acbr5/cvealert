@@ -20,5 +20,5 @@ public interface IProductsService {
 
     Boolean isExist (String productName);
 
-    Page<ProductsDO> listAll(int pageNum);
+    Page<ProductsDO> listAll(int pageNum, List<Long> ids);
 }
