@@ -3,6 +3,7 @@
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/ICVEService.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/OpencveApplication.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/controller/LoginController.java
+/home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/repository/CveProductRepository.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/component/LoginFailureHandler.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/controller/AppController.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/repository/BlogRepository.java
@@ -16,6 +17,7 @@
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/error/InvalidOldPasswordException.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/domainobject/VendorDO.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/UserService.java
+/home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/domainobject/CVEProductDO.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/Gravatar.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/controller/MyErrorController.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/ISubsProductService.java
@@ -23,6 +25,7 @@
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/component/CustomUserDetails.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/dto/UserDTO.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/repository/VendorRepository.java
+/home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/CveProductService.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/ProductsService.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/domainobject/SubscriptionsDO.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/SubscriptionsService.java
@@ -50,5 +53,7 @@
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/domainobject/SubsProductDO.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/CVEService.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/repository/IVendorRepository.java
+/home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/repository/ICveProductRepository.java
+/home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/service/ICveProductService.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/controller/VendorController.java
 /home/aysenurb/Downloads/spring-boot-project-assignment-acbr5-main (2)/src/main/java/com/v1/opencve/configuration/Config.java
