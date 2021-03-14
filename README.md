@@ -5,7 +5,7 @@ And here is the Docker image link of the project: https://hub.docker.com/layers/
 # For Pulling The Docker Image
 ~ docker pull ayse206/cvealert:latest
 
-~ docker ps
+~ docker images
 
 ~ docker run -d --net="host" -it <image ID of ayse206/cvealert>
 ![docker pull](https://github.com/java-sql-enerjisa-bootcamp/spring-boot-project-assignment-acbr5/blob/main/images/Screenshot%20at%202021-03-14%2023-19-45.png)
