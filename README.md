@@ -4,10 +4,13 @@ This project has been written to inform users when there is any security vulnera
 And here is the Docker image link of the project: https://hub.docker.com/layers/141402353/ayse206/cvealert/latest/images/sha256-697c3b7f90a11cd37bc144b4d5bd3d13f213e629fb5e87ee1d43c3592635717f?context=explore.
 # For Pulling The Docker Image
 ~ docker pull ayse206/cvealert:latest
+
 ~ docker ps
+
 ~ docker run -d --net="host" -it <image ID of ayse206/cvealert>
 ![docker pull](https://github.com/java-sql-enerjisa-bootcamp/spring-boot-project-assignment-acbr5/blob/main/images/Screenshot%20at%202021-03-14%2023-19-45.png)
 
+# About Project
 Here is Vulnerabilities page:
 ![vulnerabilities](https://github.com/java-sql-enerjisa-bootcamp/spring-boot-project-assignment-acbr5/blob/main/images/Screenshot%20at%202021-03-14%2016-39-10.png)
 
