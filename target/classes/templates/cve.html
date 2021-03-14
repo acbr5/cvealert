@@ -86,8 +86,8 @@
                               <table class="table" id="cves">
                                   <thead>
                                       <th>CVE</th>
-                                      <th>Vendors</th>
-                                      <th>Products</th>
+                                      <!--<th>Vendors</th>
+                                      <th>Products</th>-->
                                       <th>Published Date</th>
                                       <th>Updated Date</th>
                                       <th>CVSS V2</th>
@@ -98,11 +98,11 @@
                                     <tr>
                                         <td class="font-weight-bold"><a th:href="@{'https://nvd.nist.gov/vuln/detail/'+${cve.cveid}}" th:text="${cve.cveid}"></a></td>
 
-                                        <td th:text="Products">Vendors</td>
+                                      <!--  <td th:text="Products">Vendors</td>
 
                                         <td th:each="products, index: ${listProducts}" th:if="${products.cveName == cve.cveid}" th:text="${index.count}">Products</td>
 
-                                        <td th:text="${cve.publishedDate}">Published Date</td>
+                                      -->  <td th:text="${cve.publishedDate}">Published Date</td>
 
                                         <td th:text="${cve.lastModifiedDate}">Updated Date</td>
 
