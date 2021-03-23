@@ -25,3 +25,4 @@ Here are login and signup pages. After registration, the user has to click on th
 In addition, the user can subscribe to any products of any vendors:
 ![products](https://github.com/java-sql-enerjisa-bootcamp/spring-boot-project-assignment-acbr5/blob/main/images/Screenshot%20at%202021-03-14%2016-42-00.png)
 
+
