@@ -196,7 +196,15 @@
                                         <form th:action="@{/vendor-action}" th:object="${vendorr}" method="post">
                                             <input type="hidden" name="id" th:value="${vendor.id}">
                                             <input type="hidden" name="vendorName" th:value="${vendor.vendorName}">
-                                            <button title="You must be logged in for this action." id="subs" type="submit">Subscribe</button>
+
+                                            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                                                <button title="You must be logged in for this action." id="subs" type="submit">Subscribe</button>
+                                            </th:block>
+
+                                            <th:block th:if="${#authorization.expression('!isAuthenticated()')}">
+                                                <button disabled="" title="You must be logged in for this action." id="sub" type="submit">Subscribe</button>
+                                            </th:block>
+
                                         </form>
                                     </td>
                                 </tr>

@@ -1,14 +1,10 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.UserDO;
 import com.v1.opencve.error.MyAccessDeniedHandler;
-import com.v1.opencve.service.CustomUserDetailsService;
 import com.v1.opencve.service.IUserService;
 import com.v1.opencve.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,45 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class AppController {
+public class AdminController {
     @Autowired
     IUserService userService = new UserService();
 
-    @Autowired
-    CustomUserDetailsService userDetailsService;
-
-    // For user image of user's email
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
-
-    @RequestMapping(value="/cwe", method=RequestMethod.GET)
-    public ModelAndView cwes(Model model) {
-        ModelAndView mv = new ModelAndView("cwes");
-        getGravatar(model, 30);
-        return mv;
-    }
-
-    @RequestMapping(value="/reports", method=RequestMethod.GET)
-    public ModelAndView reports(Model model) {
-        ModelAndView mv = new ModelAndView("reports");
-        getGravatar(model, 30);
-        return mv;
-    }
-
     @RequestMapping(value="/admin", method=RequestMethod.GET)
     public ModelAndView listUsers(Model model) {
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDO user = userService.getUserByUsername(auth.getName());
@@ -68,7 +32,7 @@ public class AppController {
             List<UserDO> listUsers = userService.getAllUsers();
             model.addAttribute("listUsers", listUsers);
             ModelAndView mv = new ModelAndView("admin.html");
-            getGravatar(model, 30);
+            GetAvatar.getGravatar(model, 30, userService);
             return mv;
         }
         else {

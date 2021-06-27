@@ -1,14 +1,10 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.UserDO;
-import com.v1.opencve.service.CustomUserDetailsService;
 import com.v1.opencve.service.IUserService;
 import com.v1.opencve.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,27 +25,9 @@ import java.util.Map;
 
 @SessionAttributes
 @Controller
-public class LoginController {
+public class RegisterAndLoginController {
     @Autowired
     IUserService userService = new UserService();
-
-    @Autowired
-    CustomUserDetailsService userDetailsService;
-
-    // For user image of user's email
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
 
     @RequestMapping(value="/login", method=RequestMethod.GET)
     public String printUser(Model model) {
@@ -94,7 +71,7 @@ public class LoginController {
         UserDO userExists = userService.getUserByUsername(userDO.getUsername());
         UserDO userExistsEmail = userService.getUserByEmail(userDO.getEmail());
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
 
         if (userExists != null) {
             bindingResult

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:insert="home_blank :: head"></th:block>
+<title>Empty Token or Used Before </title>
+</head>
+
+<body class="hold-transition login-page">
+
+<div class="container">
+    <div class="jumbotron">
+        <th:block th:insert="home_blank :: body"> </th:block>
+        <div class="starter-template">
+            <h1>Empty Token or Used Before </h1>
+            <div th:inline="text">Please Send Another Forgot Password Form</div>
+            <a href="/forgot-password">Get Password Token</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

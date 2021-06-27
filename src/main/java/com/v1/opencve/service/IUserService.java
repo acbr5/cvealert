@@ -43,4 +43,10 @@ public interface IUserService{
     void sendVerificationEmail(UserDO user, String siteURL) throws MessagingException, UnsupportedEncodingException;
 
     boolean verify(String verificationCode);
+
+    void updateResetPasswordToken(String token, String email);
+
+    UserDO getByResetPasswordToken(String token);
+
+    void updatePassword(UserDO userDO, String newPassword);
 }

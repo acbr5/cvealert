@@ -30,8 +30,8 @@ public class UserDO {
     private String username;
     @Column(nullable = false, length = 254)
     private String password;
-    @Column(nullable = true, length = 100)
-    private String reset_password_token="";
+    @Column(name = "reset_password_token", nullable = true, length = 100)
+    private String resetPasswordToken="";
 
     // User email information
     @Column(nullable = false, length = 254, unique = true)

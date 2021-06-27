@@ -13,6 +13,8 @@ public interface IUserRepository extends JpaRepository<UserDO, Long> {
 
     Optional<UserDO> findByEmail(String username);
 
+    Optional<UserDO> findByResetPasswordToken(String token);
+
     @Query("SELECT u FROM UserDO u WHERE u.email = ?1")
     public Optional<UserDO> findUserByEmail(String email);
 

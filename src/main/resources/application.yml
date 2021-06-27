@@ -17,7 +17,7 @@ spring:
 
   mail:
     host: smtp.gmail.com
-    username: cvealert.v1@gmail.com
+    username: cvealert.v2@gmail.com
     password: ftJp4tH8p79mFfU
     port: 587
     properties:

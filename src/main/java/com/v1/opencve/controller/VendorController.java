@@ -1,8 +1,7 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
-import com.v1.opencve.domainobject.SubscriptionsDO;
+import com.v1.opencve.domainobject.SubsVendorDO;
 import com.v1.opencve.domainobject.VendorDO;
 import com.v1.opencve.service.*;
 import org.json.JSONArray;
@@ -36,30 +35,16 @@ public class VendorController {
     private IVendorService vendorService = new VendorService();
 
     @Autowired
-    private ISubscriptionsService subsService = new SubscriptionsService();
+    private ISubsVendorService subsService = new SubsVendorService();
 
     @Autowired
     private IUserService userService = new UserService();
 
-    // For user image of user's email
     @Autowired
     CustomUserDetailsService userDetailsService;
 
     List<VendorDO> listVendors;
 
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
     ResourcePatternResolver resourcePatternResolver;
     Resource[] resources;
 
@@ -123,13 +108,13 @@ public class VendorController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listVendors", listVendors);
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         return "vendors";
     }
 
     @RequestMapping("/vendors")
     public String viewHomePage(Model model) {
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         return viewPage(model, 1);
     }
 
@@ -141,7 +126,7 @@ public class VendorController {
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
             Long userID = userService.getIDByUsername(auth.getName());
             Long vendorID =  vendorr.getId();
-            SubscriptionsDO subsDO = new SubscriptionsDO();
+            SubsVendorDO subsDO = new SubsVendorDO();
             subsDO.setVendorID(vendorID);
             subsDO.setUserID(userID);
             subsService.createSubs(subsDO);

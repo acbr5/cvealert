@@ -189,7 +189,15 @@
                                     <td class="text-center"><form th:action="@{/subsProduct}" th:object="${getProduct}" method="post">
                                         <input type="hidden" name="id" th:value="${product.id}">
                                         <input type="hidden" name="id" th:value="${product.productName}">
-                                        <button title="You must be logged in for this action." id="subsProduct" type="submit">Subscribe</button>
+
+                                        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                                            <button title="You must be logged in for this action." id="subsProduct" type="submit">Subscribe</button>
+                                        </th:block>
+
+                                        <th:block th:if="${#authorization.expression('!isAuthenticated()')}">
+                                            <button disabled="" title="You must be logged in for this action." id="subsProducts" type="submit">Subscribe</button>
+                                        </th:block>
+
                                     </form>
                                     </td>
                                 </tr>

@@ -1,15 +1,12 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.UserDO;
-import com.v1.opencve.service.CustomUserDetailsService;
+import com.v1.opencve.service.IUserService;
+import com.v1.opencve.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,24 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
-public class MyErrorController implements ErrorController {
+public class ErrorsController implements ErrorController {
     @Autowired
-    CustomUserDetailsService userDetailsService;
-
-    // For user image of user's email
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
+    IUserService userService = new UserService();
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
@@ -45,7 +27,7 @@ public class MyErrorController implements ErrorController {
 
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
 
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
@@ -75,7 +57,7 @@ public class MyErrorController implements ErrorController {
     @RequestMapping(value = "/errors/403", method = RequestMethod.GET)
     public String accessDenied(Model model, Principal principal) {
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
 
         if (principal != null) {
             UserDO loginedUser = (UserDO) ((Authentication) principal).getPrincipal();

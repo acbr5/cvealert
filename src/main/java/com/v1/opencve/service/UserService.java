@@ -207,13 +207,15 @@ public class UserService implements IUserService {
     @Override
     public void sendVerificationEmail(UserDO user, String siteURL) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
-        String fromAddress = "cvealert.v1@gmail.com";
+        String fromAddress = "cvealert.v2@gmail.com";
         String senderName = "Aisha from CVEAlert.com";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
                 + "Please click the link below to verify your registration:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
-                + "Thank you,<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">CLICK HERE TO VERIFYING YOUR REGISTRATION</a></h3>"
+                + "OR COPY THE LINK: <br>"
+                + "[[URL]]<br>"
+                + "<br>Thank you,<br>"
                 + "CVEAlert.com.";
 
         MimeMessage message = mailSender.createMimeMessage();
@@ -223,7 +225,7 @@ public class UserService implements IUserService {
         helper.setTo(toAddress);
         helper.setSubject(subject);
 
-        content = content.replace("[[name]]", user.getFirst_name()+" "+user.getLast_name());
+        content = content.replace("[[name]]", user.getUsername());
         String verifyURL = siteURL + "/verify?code=" + user.getVerificationCode();
 
         content = content.replace("[[URL]]", verifyURL);
@@ -246,5 +248,35 @@ public class UserService implements IUserService {
 
             return true;
         }
+    }
+
+    // Reset Password
+    @Override
+    public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
+        Optional<UserDO> userDO = userRepository.findByEmail(email);
+        if (userDO != null) {
+            userDO.get().setResetPasswordToken(token);
+            userRepository.save(userDO.get());
+        } else {
+            throw new UserNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    @Override
+    public UserDO getByResetPasswordToken(String token) {
+        if(userRepository.findByResetPasswordToken(token).isEmpty()){
+            return null;
+        }
+        else return userRepository.findByResetPasswordToken(token).get();
+    }
+
+    @Override
+    public void updatePassword(UserDO userDO, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        userDO.setPassword(encodedPassword);
+
+        userDO.setResetPasswordToken(null);
+        userRepository.save(userDO);
     }
 }

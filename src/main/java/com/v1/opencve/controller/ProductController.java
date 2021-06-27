@@ -1,6 +1,5 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.domainobject.SubsProductDO;
@@ -48,21 +47,6 @@ public class ProductController {
 
     public String vendorName;
     public Long vendorID;
-
-    // For user image of user's email
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
 
     public void insertProductsToTable(String vendorName, Long vendorID) throws IOException, ParseException {
         String urlString = "https://cve.circl.lu/api/browse/" + vendorName;
@@ -123,13 +107,13 @@ public class ProductController {
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         return "products.html";
     }
 
     @RequestMapping(value = "/product-action", method = RequestMethod.POST)
     public String viewHomePage(@ModelAttribute(value="vendorForProduct") VendorDO vendorDO, Model model, RedirectAttributes redirectAttributes) {
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         vendorName =  vendorDO.getVendorName();
         vendorID = vendorDO.getId();
         redirectAttributes.addAttribute("vendorName", vendorName);

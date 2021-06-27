@@ -1,6 +1,5 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
 import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.BlogDO;
 import com.v1.opencve.service.*;
@@ -30,24 +29,9 @@ public class BlogController {
     @Autowired
     IBlogService blogService = new BlogService();
 
-    // For user image of user's email
-    private String getGravatar(Model model, Integer size) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
-    }
-
     @RequestMapping(value = "/blog", method = RequestMethod.GET)
     public ModelAndView blog(Model model) {
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         ModelAndView mv = new ModelAndView("blog");
         Optional<BlogDO> blogDO;
         blogDO = blogService.getBlogByID(2L);
@@ -96,7 +80,7 @@ public class BlogController {
                                         @RequestParam("title") String title,
                                         @RequestParam("content") String content) throws UnsupportedEncodingException {
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         ModelAndView modelAndView = new ModelAndView();
         Map<String, Object> params = new HashMap<>();
 

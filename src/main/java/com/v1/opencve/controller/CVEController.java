@@ -1,13 +1,9 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.Gravatar;
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.CVEDO;
 import com.v1.opencve.domainobject.CVEProductDO;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.domainobject.VendorDO;
-import com.v1.opencve.repository.CVERepository;
-import com.v1.opencve.repository.ICVERepository;
 import com.v1.opencve.service.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +14,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +32,6 @@ public class CVEController {
     private ICVEService cveService = new CVEService();
 
     @Autowired
-    private ICVERepository cveRepository = new CVERepository();
-
-    @Autowired
     private IVendorService vendorService = new VendorService();
 
     @Autowired
@@ -50,28 +40,13 @@ public class CVEController {
     @Autowired
     ICveProductService cveProductService = new CveProductService();
 
+    @Autowired
+    IUserService userService = new UserService();
+
     ResourcePatternResolver resourcePatternResolver;
     Resource[] resources;
 
     public CVEController() throws IOException {
-    }
-
-    // For user image of user's email
-    @Autowired
-    CustomUserDetailsService userDetailsService;
-
-    private String getGravatar(Model model, Integer size){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if(!(auth instanceof AnonymousAuthenticationToken)){
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
-            String mail = userDetails.getEmail();
-            Gravatar.setURL(mail, size);
-            String userGravatar = Gravatar.getURL();
-            model.addAttribute("gravatar", userGravatar);
-            return userGravatar;
-        }
-        return null;
     }
 
     public void listAllFilesFromFolder() throws IOException {
@@ -250,8 +225,6 @@ public class CVEController {
                     list.add(allCVEProducts.get(i).getId());
                 }
             }
-
-
         }
         List<CVEProductDO> liste = cveProductService.getAllById(list);
         model.addAttribute("listProducts", liste);
@@ -261,13 +234,13 @@ public class CVEController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
 
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         return "cve";
     }
 
     @RequestMapping("/")
     public String viewHomePage(Model model) {
-        getGravatar(model, 30);
+        GetAvatar.getGravatar(model, 30, userService);
         return viewPage(model, 1);
     }
 }
