@@ -71,9 +71,9 @@
                 <div class="col-md-2">
                     <div class="breadcrumb">
                         <span class="info-box-icon bg-dark" style="float: left; margin-top: 10px;"><i class="fa fa-shield fa-5x"></i></span>
-                        <h4>&nbsp;&nbsp;Total</h4>
-                        <h5 th:text="${totalItems}"><strong>&nbsp;&nbsp;</strong></h5>
-                        <h5><strong>&nbsp;&nbsp;CVE</strong></h5>
+                        <h5>&emsp;TOTAL</h5>
+                        <h5 ><strong th:text="'&emsp;' + ${totalItems}"></strong></h5>
+                        <h5><strong>&emsp;CVE</strong></h5>
                         <br>
                     </div>
                 </div>
@@ -107,29 +107,29 @@
                                         <td th:text="${cve.lastModifiedDate}">Updated Date</td>
 
                                         <div th:if="${cve.cvssv2BaseScore >= 0.1 and 3.9 >= cve.cvssv2BaseScore}">
-                                            <td class="p-3 mb-2 bg-info text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                            <td class="p-3 mb-2 bg-success text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
                                         </div>
                                         <div th:if="${cve.cvssv2BaseScore >= 4.0 and 6.9 >= cve.cvssv2BaseScore}">
-                                            <td class="p-3 mb-2 bg-warning text-dark" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                            <td class="p-3 mb-2 bg-info text-dark" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
                                         </div>
                                         <div th:if="${cve.cvssv2BaseScore >= 7.0 and 8.9 >= cve.cvssv2BaseScore}">
-                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                            <td class="p-3 mb-2 bg-warning text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
                                         </div>
                                         <div th:if="${cve.cvssv2BaseScore >= 9.0 and 10.0 >= cve.cvssv2BaseScore}">
-                                            <td class="p-3 mb-2 bg-dark text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
+                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv2BaseScore + ' ' + cve.cvssv2Severity}">CVSS V2</td>
                                         </div>
 
                                         <div th:if="${cve.cvssv3BaseScore >= 0.1 and 3.9 >= cve.cvssv3BaseScore}">
-                                            <td class="p-3 mb-2 bg-info text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                            <td class="p-3 mb-2 bg-success text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
                                         </div>
                                         <div th:if="${cve.cvssv3BaseScore >= 4.0 and 6.9 >= cve.cvssv3BaseScore}">
-                                            <td class="p-3 mb-2 bg-warning text-dark" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                            <td class="p-3 mb-2 bg-info text-dark" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
                                         </div>
                                         <div th:if="${cve.cvssv3BaseScore >= 7.0 and 8.9 >= cve.cvssv3BaseScore}">
-                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                            <td class="p-3 mb-2 bg-warning text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
                                         </div>
                                         <div th:if="${cve.cvssv3BaseScore >= 9.0 and 10.0 >= cve.cvssv3BaseScore}">
-                                            <td class="p-3 mb-2 bg-dark text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
+                                            <td class="p-3 mb-2 bg-danger text-white" th:text="${cve.cvssv3BaseScore + ' ' + cve.cvssv3Severity}">CVSS V3</td>
                                         </div>
                                     </tr>
                                     <tr> <td style="border:none" class="text-left" colspan="6" th:text="${cve.description}">Description</td> </tr>

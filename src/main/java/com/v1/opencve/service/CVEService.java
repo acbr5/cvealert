@@ -37,8 +37,9 @@ public class CVEService implements ICVEService{
 
     @Override
     public CVEDO updateCVE(CVEDO cve) {
-        long cveID = cve.getId();
-        Optional<CVEDO> currentCVE = cveRepository.findById(cveID);
+//        long cveID = cve.getId();
+        String cveID = cve.getCveid();
+        Optional<CVEDO> currentCVE = cveRepository.findByCveid(cveID);
         if(currentCVE.isPresent()){
             currentCVE.get().setCvssv2BaseScore(cve.getCvssv2BaseScore());
             currentCVE.get().setCvssv3BaseScore(cve.getCvssv3BaseScore());
@@ -69,7 +70,7 @@ public class CVEService implements ICVEService{
     {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        Page<CVEDO> pagedResult = cveRepository.findAll(paging);
+        Page<CVEDO> pagedResult = cveRepository.findByOrderByIdDesc(paging);
 
         if(pagedResult.hasContent()) {
             return pagedResult.getContent();
@@ -111,6 +112,7 @@ public class CVEService implements ICVEService{
 
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
 
-        return cveRepository.findAll(pageable);
+        //return cveRepository.findAll(pageable);
+        return cveRepository.findByOrderByIdDesc(pageable);
     }
 }

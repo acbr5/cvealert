@@ -34,6 +34,11 @@ public class CVERepository implements ICVERepository {
     }
 
     @Override
+    public Page<CVEDO> findByOrderByIdDesc(Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public Page<CVEDO> findAll(Pageable pageable) {
         return null;
     }

@@ -18,4 +18,6 @@ public interface ICVERepository extends CrudRepository<CVEDO, Long> {
     Page<CVEDO> findAll(Pageable pageable);
 
     List<CVEDO> findAll();
+
+    Page<CVEDO> findByOrderByIdDesc(Pageable pageable);
 }
