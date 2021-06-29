@@ -144,21 +144,21 @@
                                           </th:block>
                                       </li>
                                       <li class="active">
-                                          <th:block th:if="${totalPages >= 1}">
-                                            <a href="/cve/1">1</a>
+                                          <th:block th:if="${totalPages >= currentPage}">
+                                              <a th:href="@{'/cve/'+${currentPage}}" th:text="${currentPage}"></a>
                                           </th:block>
                                       </li><li>
-                                      <th:block th:if="${totalPages >= 2}">
-                                          <a href="/cve/2">2</a>
+                                      <th:block th:if="${totalPages-3 > currentPage}">
+                                          <a th:href="@{'/cve/'+${currentPage+1}}" th:text="${currentPage+1}"></a>
                                       </th:block></li><li>
-                                      <th:block th:if="${totalPages >= 3}">
-                                        <a href="/cve/3">3</a>
+                                      <th:block th:if="${totalPages-3 > currentPage}">
+                                          <a th:href="@{'/cve/'+${currentPage+2}}" th:text="${currentPage+2}"></a>
                                       </th:block></li><li>
-                                      <th:block th:if="${totalPages >= 4}">
-                                          <a href="/cve/4">4</a>
+                                      <th:block th:if="${totalPages-3 > currentPage}">
+                                          <a th:href="@{'/cve/'+${currentPage+3}}" th:text="${currentPage+3}"></a>
                                       </th:block></li><li>
-                                      <th:block th:if="${totalPages >= 5}">
-                                          <a href="/cve/5">5</a>
+                                      <th:block th:if="${totalPages-3 > currentPage}">
+                                          <a th:href="@{'/cve/'+${currentPage+4}}" th:text="${currentPage+4}"></a>
                                       </th:block></li><li class="disabled"><a>...</a></li><li><a th:href="@{'/cve/'+${totalPages}}" th:text="${totalPages}"></a></li>
                                       <li class="next">
                                           <th:block th:if="${currentPage != totalPages}">

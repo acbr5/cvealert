@@ -3,7 +3,6 @@ package com.v1.opencve.controller;
 import com.v1.opencve.service.IUserService;
 import com.v1.opencve.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

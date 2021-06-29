@@ -1,6 +1,5 @@
 package com.v1.opencve.service;
 
-import com.v1.opencve.domainobject.CVEDO;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.repository.IProductsRepository;
 import com.v1.opencve.repository.ProductsRepository;

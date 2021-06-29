@@ -1,11 +1,9 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.domainobject.SubsProductDO;
 import com.v1.opencve.domainobject.SubsVendorDO;
 import com.v1.opencve.domainobject.VendorDO;
-import com.v1.opencve.error.MyAccessDeniedHandler;
 import com.v1.opencve.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -22,8 +20,6 @@ import java.util.List;
 
 @Controller
 public class SubscriptionsController {
-    @Autowired
-    CustomUserDetailsService userDetailsService;
 
     @Autowired
     IUserService userService = new UserService();
@@ -47,7 +43,6 @@ public class SubscriptionsController {
             // For vendor subscriptions
             List<VendorDO> listVendors = vendorService.getAllVendors();
             List<SubsVendorDO> listSubs = subsService.getAllSubs();
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
             Long userID = userService.getIDByUsername(auth.getName());
 
             List<VendorDO> listSubscriptions = new ArrayList<>();
@@ -80,7 +75,6 @@ public class SubscriptionsController {
             return mv;
         }
         else {
-            MyAccessDeniedHandler ah = new MyAccessDeniedHandler();
             ModelAndView mv = new ModelAndView("errors/403");
             return mv;
         }

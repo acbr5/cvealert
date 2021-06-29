@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <th:block th:insert="home_blank :: head"></th:block>
-<title>Vendors (CPE)</title>
+<title>Products</title>
 </head>
 
 <body>
@@ -10,10 +10,10 @@
     <div class="jumbotron">
         <th:block th:insert="home_blank :: body"> </th:block>
         <section class="content-header">
-            <h1>Vendors</h1>
+            <h1>Products</h1>
             <ol class="breadcrumb">
                 <li><a href="/">CVE</a></li>
-                <li class="active">Vendors</li>
+                <li class="active">Products</li>
             </ol>
         </section>
 
@@ -212,21 +212,21 @@
                                         </th:block>
                                     </li>
                                     <li class="active">
-                                        <th:block th:if="${totalPages >= 1}">
-                                            <a href="@{'/products/'+${getVendorName}+'/'+1+'/'}">1</a>
+                                        <th:block th:if="${totalPages >= currentPage}">
+                                            <a th:href="@{'/products/'+${getVendorName}+'/'+1+'/'}">1</a>
                                         </th:block>
                                     </li><li>
-                                    <th:block th:if="${totalPages >= 2}">
-                                        <a href="@{'/products/'+${getVendorName}+'/'+2+'/'}">2</a>
+                                    <th:block th:if="${totalPages-3 > currentPage}">
+                                        <a th:href="@{'/products/'+${getVendorName}+'/'+${currentPage+1}+'/'}" th:text="${currentPage+1}"></a>
                                     </th:block></li><li>
-                                    <th:block th:if="${totalPages >= 3}">
-                                        <a href="@{'/products/'+${getVendorName}+'/'+3+'/'}">3</a>
+                                    <th:block th:if="${totalPages-3 > currentPage}">
+                                        <a th:href="@{'/products/'+${getVendorName}+'/'+${currentPage+2}+'/'}" th:text="${currentPage+2}"></a>
                                     </th:block></li><li>
-                                    <th:block th:if="${totalPages >= 4}">
-                                        <a href="@{'/products/'+${getVendorName}+'/'+4+'/'}">4</a>
+                                    <th:block th:if="${totalPages-3 > currentPage}">
+                                        <a th:href="@{'/products/'+${getVendorName}+'/'+${currentPage+3}+'/'}" th:text="${currentPage+3}"></a>
                                     </th:block></li><li>
-                                    <th:block th:if="${totalPages >= 5}">
-                                        <a th:href="@{'/products/'+${getVendorName}+'/'+5+'/'}">5</a>
+                                    <th:block th:if="${totalPages-3 > currentPage}">
+                                        <a th:href="@{'/products/'+${getVendorName}+'/'+${currentPage+4}+'/'}" th:text="${currentPage+4}"></a>
                                     </th:block></li><li class="disabled"><a>...</a></li><li><a th:href="@{'/products/'+${getVendorName}+'/'+${totalPages}+'/'}" th:text="${totalPages}"></a></li>
                                     <li class="next">
                                         <th:block th:if="${currentPage != totalPages}">

@@ -1,6 +1,5 @@
 package com.v1.opencve.controller;
 
-import com.v1.opencve.component.CustomUserDetails;
 import com.v1.opencve.domainobject.ProductsDO;
 import com.v1.opencve.domainobject.SubsProductDO;
 import com.v1.opencve.domainobject.VendorDO;
@@ -9,8 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
@@ -29,12 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@EnableScheduling
 public class ProductController {
     @Autowired
     IUserService userService = new UserService();
-
-    @Autowired
-    CustomUserDetailsService userDetailsService;
 
     @Autowired
     IVendorService vendorService = new VendorService();
@@ -48,29 +46,40 @@ public class ProductController {
     public String vendorName;
     public Long vendorID;
 
-    public void insertProductsToTable(String vendorName, Long vendorID) throws IOException, ParseException {
-        String urlString = "https://cve.circl.lu/api/browse/" + vendorName;
-        StringBuilder result = new StringBuilder();
-        URL url = new URL(urlString);
-        URLConnection conn = url.openConnection();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
+    @Scheduled(cron="0 40 13 * * *", zone="Europe/Istanbul")
+    public void insertProductsToTable() throws IOException {
+        List<VendorDO> vendors = vendorService.getAllVendors();
+        for(int i=0; i<vendors.size(); i++){
+            String vendor = vendors.get(i).getVendorName();
+            Long id = vendorService.getVendorByName(vendor).getId();
+            String urlString = "https://cve.circl.lu/api/browse/" + vendor;
+            StringBuilder result = new StringBuilder();
+            URL url = new URL(urlString);
+            URLConnection conn = url.openConnection();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
 
-        rd.close();
+            rd.close();
 
-        JSONObject jsonObject = new JSONObject(result.toString());
+            JSONObject jsonObject = new JSONObject(result.toString());
 
-        JSONArray products = jsonObject.optJSONArray("product");
-        for(int i = 0; i < products.length(); i++) {
-            ProductsDO productsDO = new ProductsDO();
-            String product_name =  products.optString(i);
-            if(!productsService.isExist(product_name)){
-                productsDO.setProductName(product_name);
-                productsDO.setVendorID(vendorID);
-                productsService.createProduct(productsDO);
+            try{
+                JSONArray products = jsonObject.optJSONArray("product");
+                for(int j = 0; j < products.length(); j++) {
+                    ProductsDO productsDO = new ProductsDO();
+                    String product_name = products.optString(j);
+                    if (!productsService.isExist(product_name)) {
+                        productsDO.setProductName(product_name);
+                        productsDO.setVendorID(id);
+                        productsService.createProduct(productsDO);
+                    }
+                }
+
+            }catch (NullPointerException ex){
+                continue;
             }
         }
     }
@@ -78,28 +87,22 @@ public class ProductController {
     @RequestMapping("/products/{vendorName}/{pageNum}/")
     public String viewPage(@PathVariable(name = "vendorName") String vendorName,
                            @PathVariable(name = "pageNum") int pageNum, Long vendorID,  Model model) {
-
-        int pageNumber = 1;
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-
-        try{
-            insertProductsToTable(vendorName, vendorID);
-        }catch (Exception e){
-            e.printStackTrace();
-            ModelAndView mv = new ModelAndView("errors/500");
-        }
-
         Long vendor_ID = vendorService.getVendorByName(vendorName).getId();
         List<ProductsDO> allProducts = productsService.getAllProducts();
         List<Long> list = new ArrayList<>();
+        List<Long> allProductID = new ArrayList<>();
 
         for(int i=0; i<allProducts.size(); i++){
-            if((allProducts.get(i).getVendorID()) == vendor_ID){
+            if(allProducts.get(i).getVendorID().equals(vendor_ID)){
                 list.add(allProducts.get(i).getId());
             }
+            allProductID.add(allProducts.get(i).getId());
         }
-        Page<ProductsDO> page = productsService.listAll(pageNum, list);
+        Page<ProductsDO> page;
+        if(vendorName.equals("*"))
+            page = productsService.listAll(pageNum, allProductID);
+        else
+            page = productsService.listAll(pageNum, list);
         List<ProductsDO> listProducts = page.getContent();
 
         model.addAttribute("listProducts", listProducts);
@@ -109,6 +112,11 @@ public class ProductController {
         model.addAttribute("totalItems", page.getTotalElements());
         GetAvatar.getGravatar(model, 30, userService);
         return "products.html";
+    }
+
+    @RequestMapping("/products/{vendorName}")
+    public ModelAndView viewPage2(@PathVariable(name = "vendorName") String vendorName) {
+        return new ModelAndView("redirect:/products/"+vendorName+"/1/");
     }
 
     @RequestMapping(value = "/product-action", method = RequestMethod.POST)
@@ -128,7 +136,6 @@ public class ProductController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!(auth instanceof AnonymousAuthenticationToken)) {
-            CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(auth.getName());
             Long userID = userService.getIDByUsername(auth.getName());
             Long productID =  productsDO.getId();
             SubsProductDO subsDO = new SubsProductDO();
