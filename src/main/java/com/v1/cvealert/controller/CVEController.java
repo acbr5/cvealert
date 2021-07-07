@@ -67,9 +67,9 @@ public class CVEController {
     }
 
     // 01:00 in every day
-    @Scheduled(cron="0 44 21 * * *", zone="Europe/Istanbul")
+    @Scheduled(cron="0 0 1 * * *", zone="Europe/Istanbul")
     public void cve_last_json() throws ParseException, IOException, MessagingException {
-        //FileDownloader.downloadCVEFiles();
+        FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
             String filename = resources[index].toString().split("/")[8];
             if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-2021.json")){
