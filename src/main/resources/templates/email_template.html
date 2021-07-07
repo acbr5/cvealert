@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Vulnerabilities Detected</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<img src="../static/img/cve.png" th:src="${basepath + 'img/cve.png'}"/>
+<p th:text="${'Hello Dear ' + username + ','}"></p>
+
+<h2 th:text="${cvedo.getCveid()}"></h2>
+<h4 th:text="${'CVSS v3 Base Score: ' + cvedo.getCvssv3BaseScore()}"></h4>
+
+<p><strong>We have detected a security vulnerability associated with the vendors and/or products you subscribe to. </strong></p>
+<br>
+<h5>Details:</h5>
+<p th:text="${cvedo.getDescription()}"></p>
+<br>
+<p>
+    You can view the details by clicking the link below:<br>
+    <a class="btn btn-default btn-primary btn-sm"
+       th:href="@{'https://nvd.nist.gov/vuln/detail/'+${cvedo.cveid}}">View The Report</a>
+</p>
+<br>
+<p><a href="/" th:href="${basepath + 'reports'}">Go to your reports</a></p>
+<br>
+<p>
+    Regards,
+    <p>CVEALert Team<
+    </p>
+</p>
+</body>
+</html>

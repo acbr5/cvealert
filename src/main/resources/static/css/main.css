@@ -159,3 +159,10 @@ body {
     border-radius:3px;
     margin-left: 3%;
  }
+
+
+ img.logo-navbar {
+     width: 5rem !important;
+     height: 5rem !important;
+     margin-top:-30%;
+ }
