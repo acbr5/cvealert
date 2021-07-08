@@ -66,8 +66,8 @@ public class CVEController {
     public CVEController() throws IOException {
     }
 
-    // 01:00 in every day
-    @Scheduled(cron="0 0 1 * * *", zone="Europe/Istanbul")
+    // 00:30 in every day
+    @Scheduled(cron="0 30 0 * * *")
     public void cve_last_json() throws ParseException, IOException, MessagingException {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
@@ -79,7 +79,7 @@ public class CVEController {
     }
 
     // one time in every four hours
-    @Scheduled(cron="0 0 */4 * * *", zone="Europe/Istanbul")
+    @Scheduled(cron="0 0 */4 * * *")
     public void modified_json() throws ParseException, IOException, MessagingException {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
@@ -91,7 +91,7 @@ public class CVEController {
     }
 
     // one time in every four hours
-    @Scheduled(cron="0 0 */4 * * *", zone="Europe/Istanbul")
+    @Scheduled(cron="0 0 */4 * * *")
     public void recent_json() throws IOException, ParseException, MessagingException {
 
         FileDownloader.downloadCVEFiles();
