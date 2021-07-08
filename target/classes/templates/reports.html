@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <th:block th:insert="home_blank :: head"></th:block>
+
 <title>Reports</title>
 </head>
 
 <body>
+
 
 <div class="container">
     <div class="jumbotron">
@@ -18,19 +20,23 @@
         </section>
 
         <section class="content">
-            <div class="row">
-                <div class='col-md-12'>
-                    <th:block th:if="${size > 0}">
-                        <th:block th:each="report: ${listReports}">
-                            <p th:text="${report.cvename}" ></p>
-                            <p th:text="${report.cvedetails}" ></p>
-                            <p th:text="${report.subscribes}" ></p>
-                            <p th:text="${report.reportedDate}" ></p>
-                            <br><br>
-                        </th:block><-->
-                    </th:block>
-                </div>
-            </div>
+            <th:block th:if="${size > 0}">
+                <th:block th:each="report: ${listReports}">
+                    <div class="news">
+                        <div class="border color-bg-canvas rounded-1 mb-3 p-4 js-notice">
+                            <div class="flex-justify-between mb-3">
+                                <h4 class="text-normal"><strong><span th:text="${report.cvename}"></span></strong></h4>
+                                <p class="text-left" th:text="${report.cvedetails}" ></p>
+                                Vendors/Products: <p th:text="${report.subscribes}" ></p>
+                                Reported Date   : <p th:text="${report.reportedDate}" ></p>
+                                <div class="d-flex flex-items-center">
+                                    <a class="btn btn-outline" target="_blank" rel="noopener noreferrer" th:href="@{'https://nvd.nist.gov/vuln/detail/'+${report.cvename}}" >View CVE</a>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </th:block>
+            </th:block>
         </section>
     </div>
 </div>

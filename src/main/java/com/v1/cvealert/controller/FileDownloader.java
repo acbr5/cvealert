@@ -14,7 +14,7 @@ public class FileDownloader {
     public static String[] links = {"https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-modified.json.zip",
             "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-recent.json.zip",
             "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2021.json.zip"};
-    public static String output = "/home/aysenurb/Downloads/cvealert/src/main/resources/cve_jsons/";
+    public static String output = "src/main/resources/cve_jsons/";
 
     public static void downloadCVEFiles() throws IOException {
         for(String link : links){
