@@ -72,7 +72,7 @@ public class CVEController {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
             String filename = resources[index].getFilename();
-            if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-2021.json")){
+            if(filename.equals("nvdcve-1.1-2021.json")){
                 insertCVEsToTable(index, "cve_json");
             }
         }
@@ -84,7 +84,7 @@ public class CVEController {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
             String filename = resources[index].getFilename();
-            if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-modified.json")){
+            if(filename.equals("nvdcve-1.1-modified.json")){
                 insertCVEsToTable(index, "modified_json");
             }
         }
@@ -97,7 +97,7 @@ public class CVEController {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
             String filename = resources[index].getFilename();
-            if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-recent.json")){
+            if(filename.equals("nvdcve-1.1-recent.json")){
                 insertCVEsToTable(index, "recent_json");
             }
         }
