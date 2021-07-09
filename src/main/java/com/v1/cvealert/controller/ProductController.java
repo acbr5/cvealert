@@ -44,7 +44,8 @@ public class ProductController {
     public String vendorName;
     public Long vendorID;
 
-    @Scheduled(cron="0 40 13 * * *", zone="Europe/Istanbul")
+    // one time in every four hours
+    @Scheduled(cron="0 0 */4 * * *")
     public void insertProductsToTable() throws IOException {
         List<VendorDO> vendors = vendorService.getAllVendors();
         for(int i=0; i<vendors.size(); i++){

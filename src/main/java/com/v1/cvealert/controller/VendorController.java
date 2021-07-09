@@ -36,7 +36,8 @@ public class VendorController {
 
     List<VendorDO> listVendors;
 
-    @Scheduled(cron="0 0 */4 * * *", zone="Europe/Istanbul")
+    // one time in every four hours
+    @Scheduled(cron="0 0 */4 * * *")
     public void insertVendorsToTable() throws IOException{
         String urlString = "https://cve.circl.lu/api/browse/";
         StringBuilder result = new StringBuilder();
