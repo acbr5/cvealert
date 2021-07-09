@@ -71,7 +71,7 @@ public class CVEController {
     public void cve_last_json() throws ParseException, IOException, MessagingException {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
-            String filename = resources[index].toString().split("/")[8];
+            String filename = resources[index].getFilename();
             if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-2021.json")){
                 insertCVEsToTable(index, "cve_json");
             }
@@ -83,7 +83,7 @@ public class CVEController {
     public void modified_json() throws ParseException, IOException, MessagingException {
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
-            String filename = resources[index].toString().split("/")[8];
+            String filename = resources[index].getFilename();
             if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-modified.json")){
                 insertCVEsToTable(index, "modified_json");
             }
@@ -96,7 +96,7 @@ public class CVEController {
 
         FileDownloader.downloadCVEFiles();
         for (int index=0; index<resources.length; index++) {
-            String filename = resources[index].toString().split("/")[8];
+            String filename = resources[index].getFilename();
             if(filename.substring(0, filename.length()-1).equals("nvdcve-1.1-recent.json")){
                 insertCVEsToTable(index, "recent_json");
             }
@@ -345,6 +345,7 @@ public class CVEController {
 
     @RequestMapping("/")
     public String viewHomePage(Model model) throws IOException, ParseException, MessagingException {
+        modified_json();
         GetAvatar.getGravatar(model, 30, userService);
         return viewPage(model, 1);
     }
