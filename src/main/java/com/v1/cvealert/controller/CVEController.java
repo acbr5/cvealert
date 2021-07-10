@@ -267,7 +267,8 @@ public class CVEController {
         }
         String email = userService.getUserByUserID(userID).getEmail();
         mailUserForCVEAlert(cveDO, subscribes, email, userID);
-
+        
+        
         if(subscribes.size() != 0){
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
             Date currentSqlDate = new Date(System.currentTimeMillis());
@@ -312,7 +313,6 @@ public class CVEController {
             mailSender.send(message);
         }
     }
-
 
     @RequestMapping("/cve/{pageNum}")
     public String viewPage(Model model,
