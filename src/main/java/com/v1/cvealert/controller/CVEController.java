@@ -344,7 +344,7 @@ public class CVEController {
     }
 
     @RequestMapping("/")
-    public String viewHomePage(Model model) throws IOException, ParseException, MessagingException {s
+    public String viewHomePage(Model model) throws IOException, ParseException, MessagingException {
         GetAvatar.getGravatar(model, 30, userService);
         return viewPage(model, 1);
     }
